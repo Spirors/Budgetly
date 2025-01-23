@@ -38,3 +38,6 @@ dist-ssr/
 
 # Windows system files
 Thumbs.db
+
+# Server specific
+coverage/
