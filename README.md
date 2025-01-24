@@ -17,4 +17,6 @@ npm init
 npm i express nodemon dotenv cors
 npm i mongoose
 npm i bcryptjs
+npm i jsonwebtoken
+npm i cookie-parser
 ```
