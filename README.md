@@ -8,6 +8,7 @@ I set up the app using Vite inside the client folder:
 ```sh
 npm create vite@latest
 npm i react-router-dom axios
+npm install react-hot-toast
 ```
 
 I set up the server folder:
