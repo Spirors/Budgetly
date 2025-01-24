@@ -19,7 +19,7 @@ export default function Signup() {
       if (data.error) {
         return toast.error(data.error)
       } else {
-        setData({})
+        setData({ username: '', email: '', password: '' });
         toast.success('Signup successful')
         navigate('/login')
       }

@@ -16,4 +16,5 @@ I set up the server folder:
 npm init
 npm i express nodemon dotenv cors
 npm i mongoose
+npm i bcryptjs
 ```
