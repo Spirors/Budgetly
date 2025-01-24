@@ -19,7 +19,7 @@ export default function Login() {
         toast.error(data.error)
       } else {
         setData({ email: '', password: '' });
-        navigate('/')
+        navigate('/Dashboard')
       }
     } catch (error) {
       console.log(error)
