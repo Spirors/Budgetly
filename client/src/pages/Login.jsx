@@ -1,7 +1,9 @@
 import { useState } from 'react'
 import axios from 'axios'
 import { toast } from 'react-hot-toast'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
+
+import AuthLayout from '../components/AuthLayout';
 
 export default function Login() {
   const navigate = useNavigate()
@@ -27,16 +29,34 @@ export default function Login() {
   }
 
   return (
-    <div>
+    <AuthLayout>
+      <h1 className="text-2xl font-bold mb-6">Login</h1>
       <form onSubmit={loginUser}>
-        <label>Email</label>
-        <input placeholder='enter email' value={data.email} onChange={(e) => setData({...data, email: e.target.value})} />
+        <label className="block mb-2">Email</label>
+        <input
+          type="email"
+          placeholder="Enter email"
+          value={data.email}
+          onChange={(e) => setData({ ...data, email: e.target.value })}
+          className="w-full p-2 mb-4 border rounded"
+        />
 
-        <label>Password</label>
-        <input type="password" placeholder='enter password' value={data.password} onChange={(e) => setData({...data, password: e.target.value})} />
+        <label className="block mb-2">Password</label>
+        <input
+          type="password"
+          placeholder="Enter password"
+          value={data.password}
+          onChange={(e) => setData({ ...data, password: e.target.value })}
+          className="w-full p-2 mb-4 border rounded"
+        />
 
-        <button type="submit">Login</button>
+        <button type="submit" className="w-full p-2 bg-blue-500 text-white rounded">Login</button>
+
+        <p className="mb-0 mt-2 pt-1 text-sm font-semibold">
+          Don't have an account?{" "}
+          <Link to="/signup">Signup now</Link>
+        </p>
       </form>
-    </div>
-  )
+    </AuthLayout>
+  );
 }
