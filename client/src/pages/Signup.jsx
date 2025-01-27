@@ -38,7 +38,6 @@ export default function Signup() {
         <label className="block mb-2">Username</label>
         <input
           type="text"
-          placeholder="Enter username"
           value={data.username}
           onChange={(e) => setData({ ...data, username: e.target.value })}
           className="w-full p-2 mb-4 border rounded"
@@ -47,7 +46,6 @@ export default function Signup() {
         <label className="block mb-2">Email</label>
         <input
           type="email"
-          placeholder="Enter email"
           value={data.email}
           onChange={(e) => setData({ ...data, email: e.target.value })}
           className="w-full p-2 mb-4 border rounded"
@@ -56,7 +54,6 @@ export default function Signup() {
         <label className="block mb-2">Password</label>
         <input
           type="password"
-          placeholder="Enter password"
           value={data.password}
           onChange={(e) => setData({ ...data, password: e.target.value })}
           className="w-full p-2 mb-4 border rounded"
@@ -66,7 +63,7 @@ export default function Signup() {
 
         <p className="mb-0 mt-2 pt-1 text-sm font-semibold">
           Already have an account?{" "}
-          <Link to="/Login">Login here</Link>
+          <Link className="underline text-blue-600 hover:text-blue-800" to="/Login">Login here</Link>
         </p>
       </form>
     </AuthLayout>

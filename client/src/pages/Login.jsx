@@ -35,7 +35,6 @@ export default function Login() {
         <label className="block mb-2">Email</label>
         <input
           type="email"
-          placeholder="Enter email"
           value={data.email}
           onChange={(e) => setData({ ...data, email: e.target.value })}
           className="w-full p-2 mb-4 border rounded"
@@ -44,7 +43,6 @@ export default function Login() {
         <label className="block mb-2">Password</label>
         <input
           type="password"
-          placeholder="Enter password"
           value={data.password}
           onChange={(e) => setData({ ...data, password: e.target.value })}
           className="w-full p-2 mb-4 border rounded"
@@ -54,7 +52,7 @@ export default function Login() {
 
         <p className="mb-0 mt-2 pt-1 text-sm font-semibold">
           Don't have an account?{" "}
-          <Link to="/signup">Signup now</Link>
+          <Link className="underline text-blue-600 hover:text-blue-800" to="/signup">Signup now</Link>
         </p>
       </form>
     </AuthLayout>
