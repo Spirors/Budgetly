@@ -3,7 +3,7 @@ import axios from 'axios'
 import { toast } from 'react-hot-toast'
 import { useNavigate, Link } from 'react-router-dom'
 
-import AuthLayout from '../components/AuthLayout';
+import AuthLayout from '../components/ui/AuthLayout';
 
 export default function Login() {
   const navigate = useNavigate()

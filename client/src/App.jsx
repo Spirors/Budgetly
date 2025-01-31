@@ -7,6 +7,8 @@ import { UserContextProvider } from '../context/UserContext'
 import Login from './pages/Login'
 import Signup from './pages/Signup'
 import Dashboard from './pages/Dashboard'
+import Budget from './pages/Budget'
+import Expense from './pages/Expense'
 import RedirectToLogin from './components/RedirectToLogin'
 
 axios.defaults.baseURL = 'http://localhost:8000'
@@ -21,6 +23,8 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/dashboard/budget" element={<Budget />} />
+        <Route path="/dashboard/expense" element={<Expense />} />
       </Routes>
     </UserContextProvider>
   )
