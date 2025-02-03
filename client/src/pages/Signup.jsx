@@ -33,39 +33,47 @@ export default function Signup() {
 
   return (
     <AuthLayout>
-      <h1 className="text-2xl font-bold mb-6">Signup</h1>
-      <form onSubmit={signupUser}>
-        <label className="block mb-2">Username</label>
-        <input
-          type="text"
-          value={data.username}
-          onChange={(e) => setData({ ...data, username: e.target.value })}
-          className="w-full p-2 mb-4 border rounded"
-        />
+      <h1 className="text-3xl font-bold mb-8 text-center">Signup</h1>
+      <form onSubmit={signupUser} className="space-y-6">
+        <div>
+          <label className="block mb-2 text-base font-medium text-gray-700">Username</label>
+          <input
+            type="text"
+            value={data.username}
+            onChange={(e) => setData({ ...data, username: e.target.value })}
+            className="w-full p-3 bg-gray-100 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          />
+        </div>
 
-        <label className="block mb-2">Email</label>
-        <input
-          type="email"
-          value={data.email}
-          onChange={(e) => setData({ ...data, email: e.target.value })}
-          className="w-full p-2 mb-4 border rounded"
-        />
+        <div>
+          <label className="block mb-2 text-base font-medium text-gray-700">Email</label>
+          <input
+            type="email"
+            value={data.email}
+            onChange={(e) => setData({ ...data, email: e.target.value })}
+            className="w-full p-3 bg-gray-100 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          />
+        </div>
 
-        <label className="block mb-2">Password</label>
-        <input
-          type="password"
-          value={data.password}
-          onChange={(e) => setData({ ...data, password: e.target.value })}
-          className="w-full p-2 mb-4 border rounded"
-        />
+        <div>
+          <label className="block mb-2 text-base font-medium text-gray-700">Password</label>
+          <input
+            type="password"
+            value={data.password}
+            onChange={(e) => setData({ ...data, password: e.target.value })}
+            className="w-full p-3 bg-gray-100 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          />
+        </div>
 
-        <button type="submit" className="w-full p-2 bg-blue-500 text-white rounded">Signup</button>
+        <button type="submit" className="w-full p-3 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
+          Signup
+        </button>
 
-        <p className="mb-0 mt-2 pt-1 text-sm font-semibold">
+        <p className="mt-4 text-sm text-center text-gray-600">
           Already have an account?{" "}
-          <Link className="underline text-blue-600 hover:text-blue-800" to="/Login">Login here</Link>
+          <Link className="underline text-blue-600 hover:text-blue-800" to="/login">Login here</Link>
         </p>
       </form>
     </AuthLayout>
-  )
+  );
 }
