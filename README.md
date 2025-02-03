@@ -2,6 +2,8 @@
 
 Budgetly is a MERN (MongoDB, Express, React, Node.js) project for tracking budget.
 
+![Signup Page](./client/img/SignupPage.png)
+
 ## Setup
 
 I set up the app using Vite inside the client folder:
@@ -20,3 +22,4 @@ npm i bcryptjs
 npm i jsonwebtoken
 npm i cookie-parser
 ```
+
