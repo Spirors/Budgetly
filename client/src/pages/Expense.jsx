@@ -1,16 +1,20 @@
-import React from 'react'
+import React from 'react';
 
 import DashboardLayout from '../components/ui/DashboardLayout';
-import Header from '../components/ui/Header';
 
 export default function Expense() {
   return (
-    <DashboardLayout>
-      <Header title="Expense">
-        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+    <DashboardLayout
+      headerTitle="Expense"
+      headerChildren={
+        <button className="bg-blue-600 hover:bg-blue-800 text-white font-bold py-2 px-4 mr-20 rounded">
           Add Expense
         </button>
-      </Header>
+      }
+    >
+      <div className="p-4">
+        {/* Your Expense content goes here */}
+      </div>
     </DashboardLayout>
-  )
+  );
 }

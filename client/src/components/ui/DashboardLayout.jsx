@@ -1,18 +1,19 @@
-import React from 'react'
-import Navbar from './Navbar'
+import React from 'react';
+import Navbar from './Navbar';
+import Header from './Header';
 
-export default function DashboardLayout({ children }) {
+export default function DashboardLayout({ headerTitle, headerChildren, children }) {
   return (
-    <div>
-      {/* BG */}
-      <div className='absolute inset-0 -z-11 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 opacity-80' />
-
-      <div className="flex min-h-screen">
-        <Navbar />
-        <div className="flex-grow">
+    <div className="flex min-h-screen bg-white">
+      <Navbar />
+      <div className="flex-grow">
+        <Header title={headerTitle}>
+          {headerChildren}
+        </Header>
+        <div className="p-4">
           {children}
         </div>
       </div>
     </div>
-  )
+  );
 }
