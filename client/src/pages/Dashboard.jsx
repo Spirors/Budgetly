@@ -9,7 +9,6 @@ export default function Dashboard() {
 
   return (
     <DashboardLayout>
-      <h1 className="text-2xl pl-4 font-semibold">Dashboard</h1>
     </DashboardLayout>
   );
 }

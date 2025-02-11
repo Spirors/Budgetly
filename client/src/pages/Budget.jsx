@@ -9,7 +9,6 @@ export default function Budget() {
 
   return (
     <DashboardLayout>
-      <h1 className="text-2xl pl-4 font-semibold">Budget</h1>
     </DashboardLayout>
   );
 }

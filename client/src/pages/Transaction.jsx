@@ -9,7 +9,6 @@ export default function Transaction() {
 
   return (
     <DashboardLayout>
-      <h1 className="text-2xl pl-4 font-semibold">Transaction</h1>
     </DashboardLayout>
   );
 }
