@@ -5,10 +5,10 @@ const { test, signupUser, loginUser, getProfile } = require('../controllers/auth
 
 // middleware
 router.use(
-    cors({
-        origin: 'http://localhost:5173',
-        credentials: true
-    })
+	cors({
+		origin: 'http://localhost:5173',
+		credentials: true
+	})
 );
 
 router.get('/', test);
