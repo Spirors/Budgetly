@@ -1,20 +1,15 @@
 import React from 'react';
 
-import DashboardLayout from '../components/ui/DashboardLayout';
+import DashboardLayout from '../components/Dashboard/DashboardLayout';
+import { useContext } from 'react';
+import { UserContext } from '../context/UserContext';
 
 export default function Budget() {
+  const { user } = useContext(UserContext)
+
   return (
-    <DashboardLayout
-      headerTitle="Budget"
-      headerChildren={
-        <button className="bg-blue-600 hover:bg-blue-800 text-white font-bold py-2 px-4 mr-20 rounded">
-          Add Budget
-        </button>
-      }
-    >
-      <div className="p-4">
-        {/* Your budget content goes here */}
-      </div>
+    <DashboardLayout>
+      <h1 className="text-2xl pl-4 font-semibold">Budget</h1>
     </DashboardLayout>
   );
 }
