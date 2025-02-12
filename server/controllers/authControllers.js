@@ -1,4 +1,4 @@
-const User = require('../models/User');
+const User = require('../models/user');
 const { hashPassword, comparePassword } = require('../helpers/auth');
 const jwt = require('jsonwebtoken');
 
@@ -78,5 +78,5 @@ module.exports = {
 	test,
 	signupUser,
 	loginUser,
-	getProfile
+	getProfile,
 };  

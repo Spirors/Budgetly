@@ -21,6 +21,7 @@ app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
 
 app.use('/', require('./routes/authRoutes'));
+app.use('/data', require('./routes/dataRoutes'));
 
 const PORT = 8000;
 app.listen(PORT, () => {

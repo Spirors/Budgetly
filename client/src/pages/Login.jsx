@@ -1,9 +1,10 @@
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 import axios from 'axios'
 import { toast } from 'react-hot-toast'
 import { useNavigate, Link } from 'react-router-dom'
 
 import AuthLayout from '../components/Auth/AuthLayout';
+import { UserContext } from '../context/UserContext';
 
 export default function Login() {
   const navigate = useNavigate()
@@ -11,6 +12,7 @@ export default function Login() {
     email: '',
     password: ''
   })
+  const { setUser } = useContext(UserContext);
 
   const loginUser = async (e) => {
     e.preventDefault()
@@ -21,6 +23,10 @@ export default function Login() {
         toast.error(data.error)
       } else {
         setData({ email: '', password: '' });
+        
+        // setUser again here to avoid loading blanks for user handles and other components
+        const response = await axios.get("/profile", { data });
+        setUser(response.data)
         navigate('/Dashboard')
       }
     } catch (error) {

@@ -11,8 +11,8 @@ export default function Sidebar() {
   const location = useLocation();
 
   return (
-    <div className="h-[calc(100vh-32px)]">
-      <span className="border-b mb-5 mt-2 pb-5 border-stone-300 flex items-center gap-1">
+    <div className="h-screen ml-4">
+      <span className="border-b mb-5 mt-6 pb-5 border-stone-300 flex items-center gap-1">
         <GiSolidLeaf className="text-4xl text-green-600/80" />
         <h1 className="text-2xl pl-4 font-semibold text-green-700/80">Budgetly</h1>
       </span>
