@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const cors = require('cors');
-const { addBudget, addTransaction, getBudget, getTransaction, deleteBudget, deleteTransaction } = require('../controllers/dataControllers');
+const { addBudget, addTransaction, getBudgets, getTransactions, deleteBudget, deleteTransaction } = require('../controllers/dataControllers');
 
 router.use(
 	cors({
@@ -12,8 +12,8 @@ router.use(
 
 router.post('/addBudget', addBudget);
 router.post('/addTransaction', addTransaction);
-router.get('/getBudget', getBudget);
-router.get('/getTransaction', getTransaction);
+router.get('/getBudgets/:userId', getBudgets);
+router.get('/getTransactions/:userId', getTransactions);
 router.delete('/deleteBudget', deleteBudget);
 router.delete('/deleteTransaction', deleteTransaction);
 

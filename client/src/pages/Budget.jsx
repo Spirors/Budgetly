@@ -1,12 +1,10 @@
 import { useState, useContext } from 'react';
 
 import DashboardLayout from '../components/Dashboard/DashboardLayout';
-import { UserContext } from '../context/UserContext';
 import MonthNavbar from '../components/Dashboard/MonthNavbar';
 import AddBudget from '../components/Dashboard/AddBudget';
 
 export default function Budget() {
-  const { user } = useContext(UserContext);
   const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
 
@@ -23,7 +21,7 @@ export default function Budget() {
           {/* Show Budget */}
         </div>
         <div className='col-span-3 rounded border border-stone-300'>
-          {!!user && (<AddBudget userId={user.id}/>)}
+          <AddBudget />
         </div>
       </div>
     </DashboardLayout>

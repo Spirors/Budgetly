@@ -29,12 +29,59 @@ const addBudget = async (req, res) => {
 };
 
 const addTransaction = async (req, res) => {
+	try {
+    const { userId, budgetName, date, description, amount } = req.body;
+
+		// Check if the budget exists, if not create an "Uncategorized" budget
+    const exist = await Budget.findOne({ userId, name: budgetName });
+    if (!exist) {
+      if (budgetName === 'Uncategorized') {
+        Budget.create({
+          userId,
+          name: 'Uncategorized',
+          max: 0, // Set a default max value for the "Uncategorized" budget
+        });
+      } else {
+        return res.json({ error: 'Budget does not exist' });
+      }
+    }
+
+    // Check if amount is enter
+		if (!amount) {
+			return res.json({ error: 'Amount value is required' });
+		}
+
+		const transaction = await Transaction.create({
+			userId,
+			budgetName,
+			date,
+			description,
+			amount,
+		});
+		return res.json(transaction);
+  } catch (error) {
+    console.log(error);
+  }
 };
 
-const getBudget = async (req, res) => {
+const getBudgets = async (req, res) => {
+	try {
+    const { userId } = req.params;
+    const budgets = await Budget.find({ userId });
+    res.json(budgets);
+  } catch (error) {
+    console.log(error);
+  }
 };
 
-const getTransaction = async (req, res) => {
+const getTransactions = async (req, res) => {
+	try {
+    const { userId } = req.params;
+    const transactions = await Transaction.find({ userId });
+    res.json(transactions);
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 const deleteBudget = async (req, res) => {
@@ -46,8 +93,8 @@ const deleteTransaction = async (req, res) => {
 module.exports = {
   addBudget,
   addTransaction,
-	getBudget,
-  getTransaction,
+	getBudgets,
+  getTransactions,
   deleteBudget,
   deleteTransaction,
 };

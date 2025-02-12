@@ -11,10 +11,11 @@ const transactionSchema = new Schema({
   budgetName: {
     type: String,
     ref: 'Budget',
+    default: 'Uncategorized'
   },
   date: {
     type: Date,
-    default: Date.now
+    required: true,
   },
   description: String,
   amount: {

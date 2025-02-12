@@ -1,8 +1,14 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import axios from 'axios';
 import { toast } from 'react-hot-toast'
 
-export default function AddBudget({ userId }) {
+import { UserContext } from '../../context/UserContext';
+import { DataContext } from '../../context/DataContext';
+
+export default function AddBudget() {
+  const { user } = useContext(UserContext);
+  const { fetchBudgets } = useContext(DataContext);
+
   const [data, setData] = useState({
     name: '',
     max: '',
@@ -12,11 +18,12 @@ export default function AddBudget({ userId }) {
     e.preventDefault()
     const { name, max } = data;
     try {
-      const {data} = await axios.post('/data/addBudget', {userId, name, max})
+      const {data} = await axios.post('/data/addBudget', {userId: user.id, name, max})
       if (data.error) {
         toast.error(data.error)
       } else {
         setData({ name: '', max: '' });
+        fetchBudgets();
       }
     } catch (error) {
       console.log(error)
