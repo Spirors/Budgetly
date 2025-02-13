@@ -21,7 +21,7 @@ export default function Header() {
   };
 
   return (
-    <div className="border-b px-4 mb-4 mt-2 pb-4 border-stone-200">
+    <div className="border-b px-4 mb-4 mt-2 pb-4 border-stone-300">
       <div className="flex items-center justify-between p-0.5">
         <div>
           {!!user && (<span className="text-sm font-bold block">Hey, {user.username}!</span>)}
