@@ -1,5 +1,4 @@
 import { useState, useContext } from 'react';
-
 import DashboardLayout from '../components/Dashboard/DashboardLayout';
 import { UserContext } from '../context/UserContext';
 import MonthNavbar from '../components/Dashboard/MonthNavbar';
@@ -21,7 +20,7 @@ export default function Transaction() {
             selectedYear={selectedYear}
             setSelectedYear={setSelectedYear}
           />
-          <ViewTransactions month={selectedMonth} year={selectedYear}/>
+          <ViewTransactions month={selectedMonth} year={selectedYear} />
         </div>
         <div className='col-span-3 rounded border border-stone-300 h-115'>
           <AddTransaction />

@@ -1,42 +1,55 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import axios from 'axios';
-import { toast } from 'react-hot-toast'
-
+import { toast } from 'react-hot-toast';
 import { UserContext } from '../../context/UserContext';
 import { DataContext } from '../../context/DataContext';
 
 export default function AddTransaction() {
   const { user } = useContext(UserContext);
-  const { budgets, fetchTransactions } = useContext(DataContext);
+  const { budgets, fetchBudgets, fetchTransactions } = useContext(DataContext);
 
-  // Get today's date in YYYY-MM-DD format
-  const today = new Date().toISOString().split('T')[0];
+  // Get today's date in the user's local time zone and format it as YYYY-MM-DD
+  const today = new Date().toLocaleDateString('en-CA'); // 'en-CA' ensures YYYY-MM-DD format
 
   // Sort budgets alphabetically by name and filter out "Uncategorized"
   const sortedBudgets = budgets
-    .filter(budget => budget.name !== 'Uncategorized')
+    .filter((budget) => budget.name !== 'Uncategorized')
     .sort((a, b) => a.name.localeCompare(b.name));
 
   const [data, setData] = useState({
     budgetName: 'Uncategorized',
-    date: today,
+    date: today, // Local date in YYYY-MM-DD format
     description: '',
     amount: '',
-  })
+  });
 
   const handleAddTransaction = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     const { budgetName, date, description, amount } = data;
+
+    // Convert the local date to UTC
+    const localDate = new Date(date);
+    const utcDate = localDate.toISOString(); // Convert to UTC
+
     try {
-      const {data} = await axios.post('/data/addTransaction', {userId: user.id, budgetName, date, description, amount})
-      if (data.error) {
-        toast.error(data.error)
+      const { data: response } = await axios.post('/data/addTransaction', {
+        userId: user.id,
+        budgetName,
+        date: utcDate, // Send UTC date to the backend
+        description,
+        amount,
+      });
+      if (response.error) {
+        toast.error(response.error);
       } else {
         setData({ budgetName: 'Uncategorized', date: today, description: '', amount: '' });
+        fetchBudgets();
         fetchTransactions();
+        toast.success('Transaction added successfully!');
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
+      toast.error('Failed to add transaction');
     }
   };
 
@@ -71,7 +84,7 @@ export default function AddTransaction() {
         <input
           type="text"
           value={data.description}
-          placeholder='Optional'
+          placeholder="Optional"
           onChange={(e) => setData({ ...data, description: e.target.value })}
           className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
         />

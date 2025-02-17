@@ -7,7 +7,7 @@ import { DataContext } from '../../context/DataContext';
 
 export default function AddBudget() {
   const { user } = useContext(UserContext);
-  const { fetchBudgets } = useContext(DataContext);
+  const { fetchBudgets, fetchTransactions } = useContext(DataContext);
 
   const [data, setData] = useState({
     name: '',
@@ -24,6 +24,8 @@ export default function AddBudget() {
       } else {
         setData({ name: '', max: '' });
         fetchBudgets();
+        fetchTransactions();
+        toast.success('Budget added successfully!');
       }
     } catch (error) {
       console.log(error)
