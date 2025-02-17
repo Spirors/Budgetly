@@ -5,19 +5,30 @@ export default function ViewTransactions({ month, year }) {
   const { transactions } = useContext(DataContext);
   const [sortConfig, setSortConfig] = useState({ key: 'date', direction: 'ascending' });
 
+  console.log('Month:', month);
+  console.log('Year:', year);
+  console.log('Transactions:', transactions);
+
   const filteredTransactions = useMemo(() => {
     if (!transactions) return [];
+  
+    const numericMonth = Number(month); // Ensure these are numbers
+    const numericYear = Number(year);
+  
     return transactions.filter((transaction) => {
       const transactionDate = new Date(transaction.date);
+      const transactionMonth = transactionDate.getUTCMonth();
+      const transactionYear = transactionDate.getUTCFullYear();
+  
       console.log('Transaction Date (UTC):', transactionDate.toISOString());
-      console.log('Parsed Month (UTC):', transactionDate.getUTCMonth());
-      console.log('Parsed Year (UTC):', transactionDate.getUTCFullYear());
-      return (
-        transactionDate.getUTCMonth() === month &&
-        transactionDate.getUTCFullYear() === year
-      );
+      console.log('Parsed Month (UTC):', transactionMonth);
+      console.log('Parsed Year (UTC):', transactionYear);
+      
+      return transactionMonth === numericMonth && transactionYear === numericYear;
     });
   }, [transactions, month, year]);
+  
+  console.log('Filtered Transactions:', filteredTransactions);
 
   const sortedTransactions = useMemo(() => {
     return [...filteredTransactions].sort((a, b) => {
@@ -41,9 +52,6 @@ export default function ViewTransactions({ month, year }) {
     }
     setSortConfig({ key, direction });
   };
-
-  console.log('Transactions:', transactions);
-  console.log('Filtered Transactions:', filteredTransactions);
 
   if (sortedTransactions.length === 0) {
     return (
