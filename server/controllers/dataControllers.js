@@ -39,7 +39,6 @@ const addTransaction = async (req, res) => {
         Budget.create({
           userId,
           name: 'Uncategorized',
-          max: 0, // Set a default max value for the "Uncategorized" budget
         });
       } else {
         return res.json({ error: 'Budget does not exist' });

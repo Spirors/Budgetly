@@ -13,10 +13,7 @@ const budgetSchema = new Schema({
     required: true,
     unique: true,
   },
-  max: {
-    type: Number,
-    required: true,
-  },
+  max: Number,
 });
 
 const BudgetModel = mongoose.model('Budget', budgetSchema);

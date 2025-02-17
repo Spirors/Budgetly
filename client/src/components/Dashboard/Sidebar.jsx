@@ -19,7 +19,7 @@ export default function Sidebar() {
 
       <AccountToggle />
       <div className="space-y-3">
-      <NavButton Icon={FiHome} selected={location.pathname === "/dashboard"} title="Dashboard" path="/dashboard" />
+        {/* <NavButton Icon={FiHome} selected={location.pathname === "/dashboard"} title="Dashboard" path="/dashboard" /> */}
         <NavButton Icon={TbBusinessplan} selected={location.pathname === "/dashboard/budget"} title="Budget" path="/dashboard/budget" />
         <NavButton Icon={FiList} selected={location.pathname === "/dashboard/transaction"} title="Transaction" path="/dashboard/transaction" />
       </div>

@@ -27,7 +27,7 @@ export default function Login() {
         // setUser again here to avoid loading blanks for user handles and other components
         const response = await axios.get("/profile", { data });
         setUser(response.data)
-        navigate('/Dashboard')
+        navigate('/dashboard/budget')
       }
     } catch (error) {
       console.log(error)

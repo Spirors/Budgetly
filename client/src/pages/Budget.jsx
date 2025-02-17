@@ -19,7 +19,7 @@ export default function Budget() {
             selectedYear={selectedYear}
             setSelectedYear={setSelectedYear}
           />
-          <ViewBudgets />
+          <ViewBudgets month={selectedMonth} year={selectedYear}/>
         </div>
         <div className='col-span-3 rounded border border-stone-300 h-70'>
           <AddBudget />

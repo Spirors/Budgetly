@@ -1,10 +1,11 @@
 import React, { useContext, useState, useMemo } from 'react';
 import { DataContext } from '../../context/DataContext';
 
-export default function ViewBudgets() {
-  const { budgets } = useContext(DataContext);
-  const [sortConfig, setSortConfig] = useState({ key: 'name', direction: 'ascending' });
+export default function ViewBudgets({ month, year }) {
+  const { budgets, transactions } = useContext(DataContext);
+  const [sortConfig, setSortConfig] = useState({ key: 'max', direction: 'descending' });
 
+  // For displaying the budgets
   const sortedBudgets = useMemo(() => {
     if (!budgets) return [];
     return [...budgets].sort((a, b) => {
@@ -26,6 +27,27 @@ export default function ViewBudgets() {
     setSortConfig({ key, direction });
   };
 
+  // Calculate actual spending for each budget
+  const calculateActual = (budgetName) => {
+    if (!transactions) return 0;
+    const numericMonth = Number(month);
+    const numericYear = Number(year);
+    const filteredTransactions = transactions.filter((transaction) => {
+      const transactionDate = new Date(transaction.date);
+      return (
+        transaction.budgetName === budgetName &&
+        transactionDate.getUTCMonth() === numericMonth &&
+        transactionDate.getUTCFullYear() === numericYear
+      );
+    });
+    return filteredTransactions.reduce((total, transaction) => total + transaction.amount, 0);
+  };
+
+  // To remove a budget
+  const removeBudget = async (id) => {
+    //To be implemented in a future chapter
+  };
+
   if (sortedBudgets.length === 0) {
     return (
       <div className='p-6'>
@@ -42,6 +64,7 @@ export default function ViewBudgets() {
         <table className="min-w-full bg-white border-separate border-spacing-0">
           <thead>
             <tr>
+              <th className="sticky top-0 py-2 pl-4 w-10 border-b border-stone-300 bg-white" />
               <th
                 className="sticky top-0 py-2 pl-4 w-40 border-b border-stone-300 bg-white cursor-pointer text-left"
                 onClick={() => requestSort('name')}
@@ -50,10 +73,7 @@ export default function ViewBudgets() {
               >
                 Name {sortConfig.key === 'name' && (sortConfig.direction === 'ascending' ? '↑' : '↓')}
               </th>
-              <th
-                className="sticky top-0 py-2 w-40 border-b border-stone-300 bg-white cursor-pointer text-left"
-              >
-                Placeholder
+              <th className="sticky top-0 py-2 w-40 border-b border-stone-300 bg-white text-left">
               </th>
               <th
                 className="sticky top-0 py-2 w-40 border-b border-stone-300 bg-white cursor-pointer text-left"
@@ -63,33 +83,63 @@ export default function ViewBudgets() {
               >
                 Max {sortConfig.key === 'max' && (sortConfig.direction === 'ascending' ? '↑' : '↓')}
               </th>
-              <th
-                className="sticky top-0 py-2 w-40 border-b border-stone-300 bg-white cursor-pointer text-left"
-              >
+              <th className="sticky top-0 py-2 w-40 border-b border-stone-300 bg-white cursor-pointer text-left">
                 Actual
               </th>
-              <th
-                className="sticky top-0 py-2 pr-4 w-40 border-b border-stone-300 bg-white cursor-pointer text-left"
-              >
+              <th className="sticky top-0 py-2 pr-4 w-40 border-b border-stone-300 bg-white cursor-pointer text-left">
                 Remaining
               </th>
             </tr>
           </thead>
           <tbody>
-            {sortedBudgets.map((budget) => (
-              <tr key={budget._id} className="hover:bg-gray-50">
-                <td className="py-2 pl-4 text-left">{budget.name}</td>
-                <td className="py-2 pl-4 text-left">{}</td>
-                <td className="py-2 pr-4 text-left">
-                  {new Intl.NumberFormat('en-US', {
-                    style: 'currency',
-                    currency: 'USD',
-                  }).format(budget.max)}
-                </td>
-                <td className="py-2 pl-4 text-left">{}</td>
-                <td className="py-2 pl-4 text-left">{}</td>
-              </tr>
-            ))}
+            {sortedBudgets.map((budget) => {
+              const actual = calculateActual(budget.name);
+              const percentageUsed = (actual / budget.max) * 100;
+              let capsuleColor = 'bg-green-500';
+
+              if (percentageUsed > 75) {
+                capsuleColor = 'bg-red-500';
+              } else if (percentageUsed > 50) {
+                capsuleColor = 'bg-yellow-500';
+              }
+
+              return (
+                <tr key={budget._id} className="hover:bg-gray-50">
+                  <td className="py-2 pl-4 text-left">
+                    <button
+                      className="text-red-500 hover:text-red-700"
+                      onClick={() => removeBudget(budget._id)}
+                    >
+                      X
+                    </button>
+                  </td>
+                  <td className="py-2 pl-4 text-left">{budget.name}</td>
+                  <td className="py-2 pl-4 text-left">
+                    <span className={`inline-block px-2 py-1 text-xs font-semibold text-white rounded-full ${capsuleColor}`}>
+                      {percentageUsed.toFixed(2)}%
+                    </span>
+                  </td>
+                  <td className="py-2 pr-4 text-left">
+                    {new Intl.NumberFormat('en-US', {
+                      style: 'currency',
+                      currency: 'USD',
+                    }).format(budget.max)}
+                  </td>
+                  <td className="py-2 pl-4 text-left">
+                    {new Intl.NumberFormat('en-US', {
+                      style: 'currency',
+                      currency: 'USD',
+                    }).format(actual)}
+                  </td>
+                  <td className="py-2 pl-4 text-left">
+                    {new Intl.NumberFormat('en-US', {
+                      style: 'currency',
+                      currency: 'USD',
+                    }).format(budget.max - actual)}
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>
