@@ -3,8 +3,6 @@
 import React from 'react';
 import Header from '@/components/Dashboard/Header';
 import Sidebar from '@/components/Dashboard/Sidebar';
-import { UserContextProvider } from '@/context/UserContext';
-import { DataContextProvider } from '@/context/DataContext';
 
 // This is the layout for the dashboard, which includes the sidebar and header.
 // It wraps around the children components that will be rendered in the dashboard pages.
@@ -18,22 +16,18 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <UserContextProvider>
-      <DataContextProvider>
-        <div className='flex'>
-          <div className='shrink-0'>
-            <div className="text-stone-950 bg-stone-100 min-w-screen">
-              <div className="grid gap-4 grid-cols-[220px_auto]">
-                <Sidebar />
-                <div className="bg-white rounded-lg shadow m-4">
-                  <Header />
-                  {children}
-                </div>
-              </div>
+    <div className='flex'>
+      <div className='shrink-0'>
+        <div className="text-stone-950 bg-stone-100 min-w-screen">
+          <div className="grid gap-4 grid-cols-[220px_auto]">
+            <Sidebar />
+            <div className="bg-white rounded-lg shadow m-4">
+              <Header />
+              {children}
             </div>
           </div>
         </div>
-      </DataContextProvider>
-    </UserContextProvider>
+      </div>
+    </div>
   );
 }

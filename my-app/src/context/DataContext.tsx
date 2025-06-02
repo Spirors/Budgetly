@@ -1,21 +1,22 @@
+"use client"
+
 import { createContext, useContext, ReactNode, useState, useEffect, useCallback } from "react";
 import { useUserContext } from "./UserContext";
 
-interface Budget {
+export interface Budget {
   id: string;
+  userId: string;
   name: string;
-  amount: number;
-  category?: string;
-  // Add other budget properties
+  max: number;
 }
 
-interface Transaction {
+export interface Transaction {
   id: string;
+  userId: string;
+  budgetName: string;
   amount: number;
   date: string;
   description: string;
-  category?: string;
-  // Add other transaction properties
 }
 
 interface DataContextType {

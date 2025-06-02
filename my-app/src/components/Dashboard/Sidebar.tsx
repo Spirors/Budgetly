@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { FiList } from "react-icons/fi";
+import { FiHome, FiList } from "react-icons/fi";
 import { TbBusinessplan } from "react-icons/tb";
 import { GiSolidLeaf } from "react-icons/gi";
 import AccountToggle from './AccountToggle';
