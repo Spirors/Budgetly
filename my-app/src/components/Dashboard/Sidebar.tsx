@@ -1,58 +1,64 @@
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { FiHome, FiList } from "react-icons/fi";
-import { TbBusinessplan } from "react-icons/tb";
-import { GiSolidLeaf } from "react-icons/gi";
-import AccountToggle from './AccountToggle';
-
-interface NavButtonProps {
-  selected: boolean;
-  Icon: React.ComponentType<{ className?: string }>;
-  title: string;
-  path: string;
-}
-
-const NavButton = ({ selected, Icon, title, path }: NavButtonProps) => {
-  return (
-    <Link
-      href={path}
-      className={`flex items-center justify-start gap-2 w-full rounded px-2 py-1.5 text-sm transition-colors ${
-        selected
-          ? "bg-white text-stone-950 shadow"
-          : "hover:bg-stone-200 bg-transparent text-stone-500"
-      }`}
-    >
-      <Icon className={selected ? "text-violet-500" : ""} />
-      <span>{title}</span>
-    </Link>
-  );
-};
+"use client";
+import React, { useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import { FiHome, FiList, FiPieChart, FiX, FiMenu } from "react-icons/fi";
 
 export default function Sidebar() {
   const pathname = usePathname();
+  const router = useRouter();
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  const NavItem = ({ icon: Icon, title, path }: { icon: any, title: string, path: string }) => (
+    <button
+      onClick={() => {
+        router.push(path);
+        setMobileOpen(false);
+      }}
+      className={`flex items-center gap-3 p-3 rounded-lg transition-all w-full ${
+        pathname === path 
+          ? "bg-gradient-to-r from-green-100 to-green-50 text-green-700 font-medium"
+          : "text-gray-600 hover:bg-gray-100"
+      }`}
+    >
+      <Icon className="text-lg" />
+      <span>{title}</span>
+    </button>
+  );
 
   return (
-    <div className="h-screen ml-4 w-56 fixed">
-      <div className="border-b mb-5 mt-6 pb-5 border-stone-300 flex items-center gap-1">
-        <GiSolidLeaf className="text-4xl text-green-600/80" />
-        <h1 className="text-2xl pl-4 font-semibold text-green-700/80">Budgetly</h1>
-      </div>
+    <>
+      {/* Mobile Toggle Button */}
+      <button 
+        onClick={() => setMobileOpen(!mobileOpen)}
+        className="md:hidden fixed bottom-6 right-6 bg-green-600 text-white p-3 rounded-full shadow-lg z-20"
+      >
+        {mobileOpen ? <FiX size={24} /> : <FiMenu size={24} />}
+      </button>
 
-      <AccountToggle />
-      <div className="space-y-3">
-        <NavButton 
-          Icon={TbBusinessplan} 
-          selected={pathname === "/dashboard/budgets"} 
-          title="Budgets" 
-          path="/dashboard/budgets" 
-        />
-        <NavButton 
-          Icon={FiList} 
-          selected={pathname === "/dashboard/transactions"} 
-          title="Transactions" 
-          path="/dashboard/transactions" 
-        />
-      </div>
-    </div>
+      {/* Sidebar */}
+      <aside className={`
+        fixed md:sticky top-0 left-0 h-screen w-64 bg-white border-r border-gray-200
+        shadow-lg md:shadow-none transform transition-transform duration-300 ease-in-out z-10
+        ${mobileOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
+      `}>
+        <div className="h-full flex flex-col p-4 overflow-y-auto">
+          {/* Logo */}
+          <div className="flex items-center gap-3 mb-8 p-2">
+          <img src="/logo-512x512.png" alt="Budgetly Logo" className="h-12 w-12 rounded-full" />
+
+            <h1 className="text-xl font-bold text-gray-800">Budgetly</h1>
+          </div>
+
+          {/* Navigation */}
+          <nav className="flex-1 space-y-4 mt-2">
+            <NavItem icon={FiHome} title="Dashboard" path="/dashboard" />
+            <NavItem icon={FiPieChart} title="Budgets" path="/dashboard/budgets" />
+            <NavItem icon={FiList} title="Transactions" path="/dashboard/transactions" />
+          </nav>
+
+          {/* User & Settings would go here */}
+        </div>
+      </aside>
+    </>
   );
 }

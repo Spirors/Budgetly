@@ -67,91 +67,119 @@ export default function ViewBudgets({ month, year }: ViewBudgetsProps) {
   }
 
   return (
-    <div className='p-6'>
-      <h2 className="text-xl font-bold mb-4">Budgets</h2>
-      <div className="overflow-y-auto h-170 scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200">
-        <table className="min-w-full bg-white border-separate border-spacing-0">
-          <thead>
-            <tr>
-              <th className="sticky top-0 py-2 pl-4 w-10 border-b border-stone-300 bg-white" />
-              <th
-                className="sticky top-0 py-2 pl-4 w-40 border-b border-stone-300 bg-white cursor-pointer text-left"
-                onClick={() => requestSort('name')}
-                role="columnheader"
-                aria-label="Sort by Name"
-              >
-                Name {sortConfig.key === 'name' && (sortConfig.direction === 'ascending' ? '↑' : '↓')}
-              </th>
-              <th className="sticky top-0 py-2 w-40 border-b border-stone-300 bg-white text-left">
-              </th>
-              <th
-                className="sticky top-0 py-2 w-40 border-b border-stone-300 bg-white cursor-pointer text-left"
-                onClick={() => requestSort('max')}
-                role="columnheader"
-                aria-label="Sort by Max"
-              >
-                Max {sortConfig.key === 'max' && (sortConfig.direction === 'ascending' ? '↑' : '↓')}
-              </th>
-              <th className="sticky top-0 py-2 w-40 border-b border-stone-300 bg-white cursor-pointer text-left">
-                Actual
-              </th>
-              <th className="sticky top-0 py-2 pr-4 w-40 border-b border-stone-300 bg-white cursor-pointer text-left">
-                Remaining
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {sortedBudgets.map((budget) => {
-              const actual = calculateActual(budget.name);
-              const percentageUsed = (actual / budget.max) * 100;
-              let capsuleColor = 'bg-green-500';
-
-              if (percentageUsed > 75) {
-                capsuleColor = 'bg-red-500';
-              } else if (percentageUsed > 50) {
-                capsuleColor = 'bg-yellow-500';
-              }
-
-              return (
-                <tr key={budget.id} className="hover:bg-gray-50">
-                  <td className="py-2 pl-4 text-left">
-                    <button
-                      className="text-red-500 hover:text-red-700"
-                      onClick={() => removeBudget(budget.id)}
-                    >
-                      X
-                    </button>
-                  </td>
-                  <td className="py-2 pl-4 text-left">{budget.name}</td>
-                  <td className="py-2 pl-4 text-left">
-                    <span className={`inline-block px-2 py-1 text-xs font-semibold text-white rounded-full ${capsuleColor}`}>
-                      {percentageUsed.toFixed(2)}%
-                    </span>
-                  </td>
-                  <td className="py-2 pr-4 text-left">
-                    {new Intl.NumberFormat('en-US', {
-                      style: 'currency',
-                      currency: 'USD',
-                    }).format(budget.max)}
-                  </td>
-                  <td className="py-2 pl-4 text-left">
-                    {new Intl.NumberFormat('en-US', {
-                      style: 'currency',
-                      currency: 'USD',
-                    }).format(actual)}
-                  </td>
-                  <td className="py-2 pl-4 text-left">
-                    {new Intl.NumberFormat('en-US', {
-                      style: 'currency',
-                      currency: 'USD',
-                    }).format(budget.max - actual)}
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+    <div className="space-y-4">
+      <div className="flex items-center justify-between">
+        <h2 className="text-lg font-semibold text-gray-800">Current Budgets</h2>
+        <div className="flex space-x-2">
+          <button className="p-2 rounded-lg hover:bg-gray-100">
+            <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 4h13M3 8h9m-9 4h9m5-4v12m0 0l-4-4m4 4l4-4"></path>
+            </svg>
+          </button>
+        </div>
       </div>
+
+      {sortedBudgets.length === 0 ? (
+        <div className="bg-gray-50 rounded-lg p-8 text-center">
+          <svg className="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+          </svg>
+          <h3 className="mt-2 text-sm font-medium text-gray-900">No budgets</h3>
+          <p className="mt-1 text-sm text-gray-500">Get started by creating a new budget.</p>
+        </div>
+      ) : (
+        <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 rounded-lg">
+          <table className="min-w-full divide-y divide-gray-300">
+            <thead className="bg-gray-50">
+              <tr>
+                <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                  <button onClick={() => requestSort('name')} className="group inline-flex">
+                    Name
+                    <span className="ml-2 flex-none rounded text-gray-400 group-hover:visible">
+                      {sortConfig.key === 'name' ? (
+                        sortConfig.direction === 'ascending' ? '↑' : '↓'
+                      ) : '↕'}
+                    </span>
+                  </button>
+                </th>
+                <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                  Progress
+                </th>
+                <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                  <button onClick={() => requestSort('max')} className="group inline-flex">
+                    Budgeted
+                    <span className="ml-2 flex-none rounded text-gray-400 group-hover:visible">
+                      {sortConfig.key === 'max' ? (
+                        sortConfig.direction === 'ascending' ? '↑' : '↓'
+                      ) : '↕'}
+                    </span>
+                  </button>
+                </th>
+                <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                  Spent
+                </th>
+                <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                  Remaining
+                </th>
+                <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-6">
+                  <span className="sr-only">Actions</span>
+                </th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-gray-200 bg-white">
+              {sortedBudgets.map((budget) => {
+                const actual = calculateActual(budget.name);
+                const percentageUsed = (actual / budget.max) * 100;
+                
+                return (
+                  <tr key={budget.id} className="hover:bg-gray-50">
+                    <td className="whitespace-nowrap px-3 py-4 text-sm font-medium text-gray-900">
+                      {budget.name}
+                    </td>
+                    <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                      <div className="w-full bg-gray-200 rounded-full h-2.5">
+                        <div 
+                          className={`h-2.5 rounded-full ${
+                            percentageUsed > 90 ? 'bg-red-500' :
+                            percentageUsed > 70 ? 'bg-yellow-500' : 'bg-green-500'
+                          }`}
+                          style={{ width: `${Math.min(percentageUsed, 100)}%` }}
+                        ></div>
+                      </div>
+                    </td>
+                    <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                      {new Intl.NumberFormat('en-US', {
+                        style: 'currency',
+                        currency: 'USD',
+                      }).format(budget.max)}
+                    </td>
+                    <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                      {new Intl.NumberFormat('en-US', {
+                        style: 'currency',
+                        currency: 'USD',
+                      }).format(actual)}
+                    </td>
+                    <td className="whitespace-nowrap px-3 py-4 text-sm font-medium">
+                      {new Intl.NumberFormat('en-US', {
+                        style: 'currency',
+                        currency: 'USD',
+                      }).format(budget.max - actual)}
+                    </td>
+                    <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
+                      <button
+                        onClick={() => removeBudget(budget.id)}
+                        className="text-red-600 hover:text-red-900"
+                      >
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      )}
     </div>
   );
 }

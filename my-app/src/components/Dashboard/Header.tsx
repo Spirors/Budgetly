@@ -1,37 +1,43 @@
 import { useUserContext } from '@/context/UserContext';
+import { FiBell, FiSearch } from 'react-icons/fi';
+import AccountToggle from '@/components/Dashboard/AccountToggle';
 
-const formatDate = (date: Date) => {
-  const day = date.getDate();
-  const suffix = (day: number) => {
-    if (day > 3 && day < 21) return 'th';
-    switch (day % 10) {
-      case 1: return 'st';
-      case 2: return 'nd';
-      case 3: return 'rd';
-      default: return 'th';
-    }
-  };
-  return `${date.toLocaleDateString('en-US', { weekday: 'long' })}, ${date.toLocaleDateString('en-US', { month: 'long' })} ${day}${suffix(day)} ${date.getFullYear()}`;
-};
-
-export default function Header() {
+export default function Header({ mobileView = false }: { mobileView?: boolean }) {
   const { user } = useUserContext();
   const today = new Date();
+  
+  const formattedDate = today.toLocaleDateString('en-US', {
+    weekday: 'short',
+    month: 'short',
+    day: 'numeric'
+  });
 
   return (
-    <div className="border-b px-4 mb-4 mt-2 pb-4 border-stone-300">
-      <div className="flex items-center justify-between p-0.5">
-        <div>
-          {user && (
-            <span className="text-sm font-bold block">
-              Hey, {user.email.split('@')[0]}!
-            </span>
-          )}
-          <span className="text-xs block text-stone-500">
-            {formatDate(today)}
-          </span>
-        </div>
+    <header className="bg-white border-b border-gray-200 p-4">
+      <div className="flex items-center justify-between">
+        {mobileView ? (
+          <div className="flex items-center justify-between w-full">
+            <div>
+              <h1 className="text-lg font-semibold text-gray-800">Budgetly</h1>
+              <p className="text-xs text-gray-500">{formattedDate}</p>
+            </div>
+            <div className="md:hidden"> {/* Only show in mobile */}
+              <AccountToggle />
+            </div>
+          </div>
+        ) : (
+          <div className="flex items-center gap-2 w-full">
+            <div className="relative flex-1 max-w-md">
+              <FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+              <input
+                type="text"
+                placeholder="Search..."
+                className="pl-10 pr-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent text-sm w-full"
+              />
+            </div>
+          </div>
+        )}
       </div>
-    </div>
+    </header>
   );
 }
