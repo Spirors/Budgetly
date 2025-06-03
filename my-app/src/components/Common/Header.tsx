@@ -1,6 +1,6 @@
 import { useUserContext } from '@/context/UserContext';
 import { FiBell, FiSearch } from 'react-icons/fi';
-import AccountToggle from '@/components/Dashboard/AccountToggle';
+import AccountToggle from '@/components/Common/AccountToggle';
 
 export default function Header({ mobileView = false }: { mobileView?: boolean }) {
   const { user } = useUserContext();

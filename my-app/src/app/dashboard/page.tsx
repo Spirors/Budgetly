@@ -1,8 +1,8 @@
 "use client"
 
 import React, { useState, useEffect } from 'react';
-import AccountToggle from '@/components/Dashboard/AccountToggle';
-import MonthNavbar from '@/components/Dashboard/MonthNavbar';
+import AccountToggle from '@/components/Common/AccountToggle';
+import MonthNavbar from '@/components/Common/MonthNavbar';
 
 export default function Dashboard() {
   const [selectedMonth, setSelectedMonth] = useState<number>(0);

@@ -5,6 +5,7 @@ import { toast } from 'react-hot-toast';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useUserContext } from '@/context/UserContext';
+import { supabase } from '@/utils/supabase';
 
 interface LoginData {
   email: string;
@@ -25,6 +26,30 @@ export default function Login() {
     setIsLoading(true);
 
     const { email, password } = data;
+
+    // Supabase Auth sign in
+    const { error, data: signInData } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+    if (error) {
+      toast.error(error.message);
+      setIsLoading(false);
+      return;
+    }
+
+    // Optionally fetch user profile or set user context here
+    // Map Supabase user to your app's User type
+    setUser({
+      id: signInData.user.id,
+      email: signInData.user.email ?? '',
+      username: signInData.user.user_metadata?.username ?? '', // Adjust as needed
+      // Add other properties if needed
+    });
+    toast.success('Logged in successfully!');
+    setIsLoading(false);
+    router.push('/dashboard');
   };
 
   return (

@@ -33,7 +33,7 @@ export default function RootLayout({
       >
         <UserContextProvider>
           <DataContextProvider>
-            <Toaster position='bottom-right' toastOptions={{ duration: 1250 }} />
+            <Toaster position='bottom-right' toastOptions={{ duration: 2000 }} />
             {children}
           </DataContextProvider>
         </UserContextProvider>

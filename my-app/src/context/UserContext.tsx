@@ -1,6 +1,7 @@
 "use client"
 
-import { createContext, useState, ReactNode, useContext } from "react";
+import { createContext, useState, ReactNode, useContext, useEffect } from "react";
+import { supabase } from "@/utils/supabase"; // Adjust path as needed
 
 export interface User {
   id: string;
@@ -28,6 +29,38 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
   const setUser = (user: User | null) => {
     _setUser(user);
   };
+
+  // Keep user logged in by checking session on mount
+  useEffect(() => {
+    const getSession = async () => {
+      const { data } = await supabase.auth.getUser();
+      if (data.user) {
+        _setUser({
+          id: data.user.id,
+          email: data.user.email ?? "",
+          username: data.user.user_metadata?.username ?? "",
+        });
+      }
+    };
+    getSession();
+
+    // Listen for auth state changes
+    const { data: listener } = supabase.auth.onAuthStateChange((event, session) => {
+      if (session?.user) {
+        _setUser({
+          id: session.user.id,
+          email: session.user.email ?? "",
+          username: session.user.user_metadata?.username ?? "",
+        });
+      } else {
+        _setUser(null);
+      }
+    });
+
+    return () => {
+      listener.subscription.unsubscribe();
+    };
+  }, []);
 
   const value = {
     user,

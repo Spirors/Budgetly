@@ -1,7 +1,7 @@
 "use client"
 import React from 'react';
-import Header from '@/components/Dashboard/Header';
-import Sidebar from '@/components/Dashboard/Sidebar';
+import Header from '@/components/Common/Header';
+import Sidebar from '@/components/Common/Sidebar';
 
 export default function DashboardLayout({
   children,

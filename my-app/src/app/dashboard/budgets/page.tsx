@@ -1,6 +1,6 @@
 "use client"
 import { useState, useEffect } from 'react';
-import MonthNavbar from '@/components/Dashboard/MonthNavbar';
+import MonthNavbar from '@/components/Common/MonthNavbar';
 import AddBudget from '@/components/Budget/AddBudget';
 import ViewBudgets from '@/components/Budget/ViewBudgets';
 

@@ -1,10 +1,13 @@
 import { useUserContext } from '@/context/UserContext';
 import { useState, useRef, useEffect } from 'react';
+import { supabase } from '@/utils/supabase';
+import { useRouter } from 'next/navigation';
 
 export default function AccountToggle() {
-  const { user } = useUserContext();
+  const { user, setUser } = useUserContext();
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -19,6 +22,12 @@ export default function AccountToggle() {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
+
+  const handleSignOut = async () => {
+    await supabase.auth.signOut();
+    setUser(null);
+    router.push('/auth/login');
+  };
 
   return (
     <div className="relative" ref={dropdownRef}>
@@ -38,9 +47,8 @@ export default function AccountToggle() {
           <span className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-white"></span>
         </div>
         {user && (
-          <div className="hidden md:block text-left">
-            <span className="text-sm font-medium block text-gray-800">{user.email.split('@')[0]}</span>
-            <span className="text-xs block text-gray-500 truncate max-w-[120px]">{user.email}</span>
+          <div className="hidden md:block text-left m-2">
+            <span className="text-sm font-medium block text-gray-800">{user.username}</span>
           </div>
         )}
       </button>
@@ -53,9 +61,12 @@ export default function AccountToggle() {
               <p className="font-medium">Signed in as</p>
               <p className="truncate">{user?.email}</p>
             </div>
-            <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Your Profile</a>
-            <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Settings</a>
-            <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 border-t border-gray-100">Sign out</a>
+            <button
+              onClick={handleSignOut}
+              className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 border-t border-gray-100"
+            >
+              Sign out
+            </button>
           </div>
         </div>
       )}

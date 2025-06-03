@@ -1,7 +1,7 @@
 "use client"
 import { useState, useEffect } from 'react';
 import { useUserContext } from '@/context/UserContext';
-import MonthNavbar from '@/components/Dashboard/MonthNavbar';
+import MonthNavbar from '@/components/Common/MonthNavbar';
 import AddTransaction from '@/components/Transaction/AddTransaction';
 import ViewTransactions from '@/components/Transaction/ViewTransactions';
 

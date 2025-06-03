@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { toast } from 'react-hot-toast';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { supabase } from '@/utils/supabase';
 
 interface SignupData {
   username: string;
@@ -23,14 +24,34 @@ export default function Signup() {
   const signupUser = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    
+
     const { username, email, password } = data;
+
+    // Supabase Auth sign up
+    const { error, data: signUpData } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: { username }
+      }
+    });
+
+    if (error) {
+      toast.error(error.message);
+      setIsLoading(false);
+      return;
+    }
+
+    toast.success('Account created! Please check your email to verify your account.');
+    setIsLoading(false);
+    router.push('/auth/login');
   };
 
   return (
     <>
       <h1 className="text-3xl font-bold mb-8 text-center">Create Account</h1>
       <form onSubmit={signupUser} className="space-y-6">
+        {/* ...existing form fields... */}
         <div>
           <label htmlFor="username" className="block mb-2 text-base font-medium text-gray-700">
             Username
