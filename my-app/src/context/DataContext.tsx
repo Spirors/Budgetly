@@ -2,21 +2,25 @@
 
 import { createContext, useContext, ReactNode, useState, useEffect, useCallback } from "react";
 import { useUserContext } from "./UserContext";
+import { supabase } from "@/utils/supabase";
 
 export interface Budget {
   id: string;
   userId: string;
   name: string;
   max: number;
+  created_at?: string;
 }
 
 export interface Transaction {
   id: string;
   userId: string;
+  budgetId?: string | null;
   budgetName: string;
   amount: number;
   date: string;
   description: string;
+  created_at?: string;
 }
 
 interface DataContextType {
@@ -50,14 +54,28 @@ export function DataContextProvider({ children }: DataContextProviderProps) {
 
   const fetchBudgets = useCallback(async () => {
     if (!isAuthenticated || !user) return;
-    
+
     setIsLoading(true);
     setError(null);
     try {
-      const response = await fetch(`/api/budgets?userId=${user.id}`);
-      if (!response.ok) throw new Error('Failed to fetch budgets');
-      const data = await response.json();
-      setBudgets(data);
+      const { data, error } = await supabase
+        .from('budgets')
+        .select('*')
+        .eq('user_id', user.id)
+        .order('created_at', { ascending: false });
+
+      if (error) throw error;
+
+      // Map supabase fields to Budget interface
+      setBudgets(
+        (data || []).map((b: any) => ({
+          id: b.id,
+          userId: b.user_id,
+          name: b.name,
+          max: Number(b.max),
+          created_at: b.created_at,
+        }))
+      );
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Budget fetch failed');
       console.error("Budget fetch error:", err);
@@ -68,14 +86,30 @@ export function DataContextProvider({ children }: DataContextProviderProps) {
 
   const fetchTransactions = useCallback(async () => {
     if (!isAuthenticated || !user) return;
-    
+
     setIsLoading(true);
     setError(null);
     try {
-      const response = await fetch(`/api/transactions?userId=${user.id}`);
-      if (!response.ok) throw new Error('Failed to fetch transactions');
-      const data = await response.json();
-      setTransactions(data);
+      const { data, error } = await supabase
+        .from('transactions')
+        .select('*')
+        .eq('user_id', user.id)
+        .order('date', { ascending: false });
+
+      if (error) throw error;
+
+      setTransactions(
+        (data || []).map((t: any) => ({
+          id: t.id,
+          userId: t.user_id,
+          budgetId: t.budget_id,
+          budgetName: t.budget_name,
+          amount: Number(t.amount),
+          date: t.date,
+          description: t.description,
+          created_at: t.created_at,
+        }))
+      );
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Transaction fetch failed');
       console.error("Transaction fetch error:", err);

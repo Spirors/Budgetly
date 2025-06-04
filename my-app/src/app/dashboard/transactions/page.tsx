@@ -4,12 +4,14 @@ import { useUserContext } from '@/context/UserContext';
 import MonthNavbar from '@/components/Common/MonthNavbar';
 import AddTransaction from '@/components/Transaction/AddTransaction';
 import ViewTransactions from '@/components/Transaction/ViewTransactions';
+import RemoveTransaction from '@/components/Transaction/RemoveTransaction';
 
 export default function Transactions() {
   const { user } = useUserContext();
   const [selectedMonth, setSelectedMonth] = useState<number | null>(null);
   const [selectedYear, setSelectedYear] = useState<number | null>(null);
   const [showAddForm, setShowAddForm] = useState(false);
+  const [removingTransaction, setRemovingTransaction] = useState<null | string>(null);
 
   useEffect(() => {
     const now = new Date();
@@ -27,6 +29,13 @@ export default function Transactions() {
 
   return (
     <div className="space-y-6">
+      {removingTransaction && (
+        <RemoveTransaction
+          transactionId={removingTransaction}
+          onClose={() => setRemovingTransaction(null)}
+        />
+      )}
+
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <h1 className="text-2xl font-bold text-gray-800">Transaction History</h1>
         <button
@@ -49,7 +58,11 @@ export default function Transactions() {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 bg-white rounded-xl shadow-sm border border-gray-200 p-4">
-          <ViewTransactions month={selectedMonth} year={selectedYear} />
+          <ViewTransactions
+            month={selectedMonth}
+            year={selectedYear}
+            onRemoveTransaction={setRemovingTransaction}
+          />
         </div>
         
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4">

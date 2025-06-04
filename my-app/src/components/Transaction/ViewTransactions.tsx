@@ -1,9 +1,38 @@
 import { useMemo, useState } from 'react';
 import { useDataContext } from '@/context/DataContext';
 
+const categoryColors = [
+  'bg-green-100 text-green-800',
+  'bg-blue-100 text-blue-800',
+  'bg-yellow-100 text-yellow-800',
+  'bg-purple-100 text-purple-800',
+  'bg-pink-100 text-pink-800',
+  'bg-indigo-100 text-indigo-800',
+  'bg-red-100 text-red-800',
+  'bg-teal-100 text-teal-800',
+  'bg-orange-100 text-orange-800',
+  'bg-lime-100 text-lime-800',
+  'bg-cyan-100 text-cyan-800',
+  'bg-fuchsia-100 text-fuchsia-800',
+  'bg-amber-100 text-amber-800',
+  'bg-rose-100 text-rose-800',
+  'bg-violet-100 text-violet-800',
+];
+
+function getCategoryColor(category: string) {
+  if (category === 'Uncategorized') return 'bg-gray-100 text-gray-800';
+  let hash = 0;
+  for (let i = 0; i < category.length; i++) {
+    hash = category.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  const index = Math.abs(hash) % categoryColors.length;
+  return categoryColors[index];
+}
+
 interface ViewTransactionsProps {
   month: number;
   year: number;
+  onRemoveTransaction?: (id: string) => void;
 }
 
 type SortKey = 'budgetName' | 'date' | 'description' | 'amount';
@@ -13,7 +42,7 @@ interface SortConfig {
   direction: 'ascending' | 'descending';
 }
 
-export default function ViewTransactions({ month, year }: ViewTransactionsProps) {
+export default function ViewTransactions({ month, year, onRemoveTransaction }: ViewTransactionsProps) {
   const { transactions } = useDataContext();
   const [sortConfig, setSortConfig] = useState<SortConfig>({ key: 'date', direction: 'descending' });
   const [searchTerm, setSearchTerm] = useState('');
@@ -56,10 +85,6 @@ export default function ViewTransactions({ month, year }: ViewTransactionsProps)
     });
   };
 
-  const removeTransaction = async (id: string) => {
-    // TODO: Implement transaction removal
-  };
-
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleDateString('en-US', {
@@ -70,9 +95,9 @@ export default function ViewTransactions({ month, year }: ViewTransactionsProps)
 
   return (
     <div className="space-y-4">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="flex items-center justify-between">
         <h2 className="text-lg font-semibold text-gray-800">Transaction List</h2>
-        <div className="relative w-full sm:w-64">
+        <div className="relative w-full max-w-xs sm:w-64">
           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
             <svg className="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
@@ -104,7 +129,7 @@ export default function ViewTransactions({ month, year }: ViewTransactionsProps)
             <table className="min-w-full divide-y divide-gray-300">
               <thead className="bg-gray-50">
                 <tr>
-                  <th scope="col" className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer" onClick={() => requestSort('date')}>
+                  <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 cursor-pointer" onClick={() => requestSort('date')}>
                     <div className="flex items-center">
                       Date
                       <span className="ml-1">
@@ -114,7 +139,7 @@ export default function ViewTransactions({ month, year }: ViewTransactionsProps)
                       </span>
                     </div>
                   </th>
-                  <th scope="col" className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer" onClick={() => requestSort('description')}>
+                  <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 cursor-pointer" onClick={() => requestSort('description')}>
                     <div className="flex items-center">
                       Description
                       <span className="ml-1">
@@ -124,7 +149,7 @@ export default function ViewTransactions({ month, year }: ViewTransactionsProps)
                       </span>
                     </div>
                   </th>
-                  <th scope="col" className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer" onClick={() => requestSort('budgetName')}>
+                  <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 cursor-pointer" onClick={() => requestSort('budgetName')}>
                     <div className="flex items-center">
                       Category
                       <span className="ml-1">
@@ -134,7 +159,7 @@ export default function ViewTransactions({ month, year }: ViewTransactionsProps)
                       </span>
                     </div>
                   </th>
-                  <th scope="col" className="px-3 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer" onClick={() => requestSort('amount')}>
+                  <th scope="col" className="px-3 py-3.5 text-right text-sm font-semibold text-gray-900 cursor-pointer" onClick={() => requestSort('amount')}>
                     <div className="flex items-center justify-end">
                       Amount
                       <span className="ml-1">
@@ -144,7 +169,7 @@ export default function ViewTransactions({ month, year }: ViewTransactionsProps)
                       </span>
                     </div>
                   </th>
-                  <th scope="col" className="relative py-3 pl-3 pr-4 sm:pr-6">
+                  <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-6">
                     <span className="sr-only">Actions</span>
                   </th>
                 </tr>
@@ -159,17 +184,13 @@ export default function ViewTransactions({ month, year }: ViewTransactionsProps)
                       {transaction.description || 'No description'}
                     </td>
                     <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                        transaction.budgetName === 'Uncategorized' 
-                          ? 'bg-gray-100 text-gray-800' 
-                          : 'bg-green-100 text-green-800'
-                      }`}>
+                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${getCategoryColor(transaction.budgetName)}`}>
                         {transaction.budgetName}
                       </span>
                     </td>
-                    <td className="whitespace-nowrap px-3 py-4 text-sm text-right font-medium ${
+                    <td className={`whitespace-nowrap px-3 py-4 text-sm text-right font-medium ${
                       transaction.amount < 0 ? 'text-red-600' : 'text-gray-900'
-                    }">
+                    }`}>
                       {new Intl.NumberFormat('en-US', {
                         style: 'currency',
                         currency: 'USD',
@@ -177,7 +198,7 @@ export default function ViewTransactions({ month, year }: ViewTransactionsProps)
                     </td>
                     <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
                       <button
-                        onClick={() => removeTransaction(transaction.id)}
+                        onClick={() => onRemoveTransaction?.(transaction.id)}
                         className="text-red-600 hover:text-red-900"
                       >
                         Delete

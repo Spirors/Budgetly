@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { useUserContext } from '@/context/UserContext';
 import { useDataContext } from '@/context/DataContext';
+import { supabase } from '@/utils/supabase';
 
 interface BudgetFormData {
   name: string;
@@ -23,11 +24,35 @@ export default function AddBudget({ onClose }: AddBudgetProps) {
 
   const handleAddBudget = async (e: React.FormEvent) => {
     e.preventDefault();
-    // ... existing validation logic ...
+
+    if (!user) {
+      toast.error('You must be logged in to add a budget.');
+      return;
+    }
+    if (!data.name.trim()) {
+      toast.error('Budget name is required.');
+      return;
+    }
+    if (!data.max || isNaN(Number(data.max)) || Number(data.max) <= 0) {
+      toast.error('Please enter a valid budget amount.');
+      return;
+    }
 
     try {
-      // ... API call logic ...
+      const { error } = await supabase.from('budgets').insert([
+        {
+          user_id: user.id,
+          name: data.name.trim(),
+          max: Number(data.max),
+        },
+      ]);
+      if (error) {
+        toast.error(error.message);
+        return;
+      }
       toast.success('Budget created successfully!');
+      setData({ name: '', max: '' });
+      fetchBudgets();
       onClose?.();
     } catch (error) {
       toast.error('Failed to create budget');

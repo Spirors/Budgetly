@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { useUserContext } from '@/context/UserContext';
 import { useDataContext } from '@/context/DataContext';
+import { supabase } from '@/utils/supabase';
 
 interface TransactionFormData {
   budgetName: string;
@@ -40,21 +41,24 @@ export default function AddTransaction({ onClose }: AddTransactionProps) {
       toast.error('Please enter a valid amount.');
       return;
     }
+
+    // Find the selected budget's id
+    const selectedBudget = budgets.find((b) => b.name === data.budgetName);
+    const budgetId = selectedBudget ? selectedBudget.id : null;
+
     try {
-      const res = await fetch('/api/transactions', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          userId: user.id,
-          budgetName: data.budgetName,
+      const { error } = await supabase.from('transactions').insert([
+        {
+          user_id: user.id,
+          budget_id: budgetId,
+          budget_name: data.budgetName,
           date: data.date,
           description: data.description,
           amount: Number(data.amount),
-        }),
-      });
-      const result = await res.json();
-      if (!res.ok || result.error) {
-        toast.error(result.error || 'Failed to add transaction.');
+        },
+      ]);
+      if (error) {
+        toast.error(error.message);
         return;
       }
       toast.success('Transaction added successfully!');
