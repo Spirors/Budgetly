@@ -3,6 +3,14 @@ import { supabase } from '@/utils/supabase';
 import { toast } from 'react-hot-toast';
 import { useDataContext } from '@/context/DataContext';
 
+/**
+ * EditBudget.tsx
+ * 
+ * Provides a modal form for editing an existing budget.
+ * Updates budget details in Supabase and updates related transactions.
+ * Notifies parent and refreshes data on save.
+ */
+
 interface EditBudgetsProps {
   budget: {
     id: string;

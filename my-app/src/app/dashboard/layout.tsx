@@ -3,6 +3,13 @@ import React from 'react';
 import Header from '@/components/Common/Header';
 import Sidebar from '@/components/Common/Sidebar';
 
+/**
+ * dashboard/layout.tsx
+ *
+ * Layout component for the dashboard.
+ * Provides a consistent header, sidebar, and main content area.
+ */
+
 export default function DashboardLayout({
   children,
 }: Readonly<{

@@ -1,5 +1,12 @@
 import { useDataContext } from '@/context/DataContext';
 
+/**
+ * StatCards.tsx
+ * 
+ * Displays summary statistics such as total budget, total spent, remaining, and savings rate.
+ * Updates based on the selected month and year.
+ */
+
 interface StatCardsProps {
   selectedMonth: number;
   selectedYear: number;

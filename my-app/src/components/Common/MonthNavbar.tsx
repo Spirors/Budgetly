@@ -1,3 +1,10 @@
+/**
+  * MonthNavbar.tsx
+  * 
+  * Renders a navigation bar for selecting months and years.
+  * Allows users to switch between different months and years.
+  */
+
 interface MonthNavbarProps {
   selectedMonth: number;
   setSelectedMonth: (month: number) => void;

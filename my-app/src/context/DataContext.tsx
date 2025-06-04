@@ -4,6 +4,13 @@ import { createContext, useContext, ReactNode, useState, useEffect, useCallback 
 import { useUserContext } from "./UserContext";
 import { supabase } from "@/utils/supabase";
 
+/**
+ * DataContext.tsx
+ * 
+ * Provides global state and functions for budgets and transactions.
+ * Handles fetching, updating, and deleting data from Supabase.
+ */
+
 export interface Budget {
   id: string;
   userId: string;

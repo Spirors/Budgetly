@@ -2,6 +2,14 @@ import { useUserContext } from '@/context/UserContext';
 import { FiBell, FiSearch } from 'react-icons/fi';
 import AccountToggle from '@/components/Common/AccountToggle';
 
+/**
+ * Header.tsx
+ *
+ * Renders the header for the application.
+ * Displays the app name, current date, and a search bar on larger screens.
+ * Shows an account toggle button on mobile view.
+ */
+
 export default function Header({ mobileView = false }: { mobileView?: boolean }) {
   const { user } = useUserContext();
   const today = new Date();

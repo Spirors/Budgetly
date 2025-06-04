@@ -3,6 +3,13 @@
 import { createContext, useState, ReactNode, useContext, useEffect } from "react";
 import { supabase } from "@/utils/supabase"; // Adjust path as needed
 
+/**
+ * UserContext.tsx
+ * 
+ * Manages user authentication state and user profile information.
+ * Provides login, logout, and user session management.
+ */
+
 export interface User {
   id: string;
   username: string;

@@ -1,10 +1,18 @@
 "use client"
+
 import { useState, useEffect } from 'react';
 import MonthNavbar from '@/components/Common/MonthNavbar';
 import AddBudget from '@/components/Budget/AddBudget';
 import ViewBudgets from '@/components/Budget/ViewBudgets';
 import EditBudget from '@/components/Budget/EditBudget';
 import RemoveBudget from '@/components/Budget/RemoveBudget';
+
+/**
+ * dashboard/budgets/page.tsx
+ * 
+ * Budgets management page.
+ * Allows users to view, add, edit, and remove budgets for selected months/years.
+ */
 
 export default function Budgets() {
   const [selectedMonth, setSelectedMonth] = useState<number | null>(null);

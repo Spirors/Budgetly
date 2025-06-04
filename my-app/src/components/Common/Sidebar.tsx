@@ -3,6 +3,13 @@ import React, { useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { FiHome, FiList, FiPieChart, FiX, FiMenu } from "react-icons/fi";
 
+/**
+ * Sidebar.tsx
+ * 
+ * Renders the main navigation sidebar for the dashboard.
+ * Handles navigation between dashboard sections and responsive sidebar toggling.
+ */
+
 export default function Sidebar() {
   const pathname = usePathname();
   const router = useRouter();

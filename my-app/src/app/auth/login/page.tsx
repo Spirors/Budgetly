@@ -7,6 +7,13 @@ import { useRouter } from 'next/navigation';
 import { useUserContext } from '@/context/UserContext';
 import { supabase } from '@/utils/supabase';
 
+/**
+ * Login.tsx
+ * Provides a form for user login.
+ * Handles user input, validation, and submission to Supabase Auth.
+ * Displays success or error messages based on the outcome.
+ */
+
 interface LoginData {
   email: string;
   password: string;

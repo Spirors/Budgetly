@@ -2,6 +2,13 @@ import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Legend } from 'chart.js';
 import { useDataContext } from '@/context/DataContext';
 
+/**
+ * SpendingTrendsChart.tsx
+ * 
+ * Renders a line chart showing spending trends over the last 6 months, current year, or last year.
+ * Calculates total spending for each month based on transactions.
+ */
+
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Legend);
 
 interface Props {

@@ -4,6 +4,14 @@ import { useUserContext } from '@/context/UserContext';
 import { useDataContext } from '@/context/DataContext';
 import { supabase } from '@/utils/supabase';
 
+/**
+ * AddTransaction.tsx
+ * 
+ * Provides a form for adding a new transaction.
+ * Handles form state, validation, and submission to Supabase.
+ * Notifies parent on successful addition and refreshes data.
+ */
+
 interface TransactionFormData {
   budgetName: string;
   date: string;

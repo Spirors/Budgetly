@@ -2,6 +2,13 @@ import { Pie } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { useDataContext } from '@/context/DataContext';
 
+/**
+ * BudgetBreakdownChart.tsx
+ * 
+ * Renders a pie chart showing budget breakdown for the selected month and year.
+ * Calculates totals for each budget category from transactions.
+ */
+
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 interface Props {

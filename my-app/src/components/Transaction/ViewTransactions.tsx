@@ -1,6 +1,13 @@
 import { useMemo, useState } from 'react';
 import { useDataContext } from '@/context/DataContext';
 
+/**
+ * ViewTransactions.tsx
+ * 
+ * Renders a sortable table of transactions for the selected month and year.
+ * Supports removing transactions and displays transaction details.
+ */
+
 const categoryColors = [
   'bg-green-100 text-green-800',
   'bg-blue-100 text-blue-800',

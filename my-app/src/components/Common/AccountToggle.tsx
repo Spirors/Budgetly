@@ -3,6 +3,14 @@ import { useState, useRef, useEffect } from 'react';
 import { supabase } from '@/utils/supabase';
 import { useRouter } from 'next/navigation';
 
+/**
+ * AccountToggle.tsx
+ *
+ * Renders a user account toggle button with a dropdown menu.
+ * Displays user avatar, username, and email.
+ * Allows users to sign out and closes the dropdown when clicking outside.
+ */
+
 export default function AccountToggle() {
   const { user, setUser } = useUserContext();
   const [isOpen, setIsOpen] = useState(false);

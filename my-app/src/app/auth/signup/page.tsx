@@ -6,6 +6,13 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { supabase } from '@/utils/supabase';
 
+/**
+ * Signup.tsx
+ * Provides a form for user registration.
+ * Handles user input, validation, and submission to Supabase Auth.
+ * Displays success or error messages based on the outcome.
+ */
+
 interface SignupData {
   username: string;
   email: string;

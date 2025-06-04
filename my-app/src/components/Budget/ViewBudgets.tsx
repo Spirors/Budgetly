@@ -1,6 +1,14 @@
 import React, { useState, useMemo } from 'react';
 import { useDataContext } from '@/context/DataContext';
 
+/**
+ * ViewBudgets.tsx
+ * 
+ * Displays a sortable table of all budgets for the selected month and year.
+ * Shows progress, spent, and remaining amounts for each budget.
+ * Supports editing and removing budgets.
+ */
+
 interface ViewBudgetsProps {
   month: number;
   year: number;

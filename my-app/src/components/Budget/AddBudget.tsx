@@ -4,6 +4,14 @@ import { useUserContext } from '@/context/UserContext';
 import { useDataContext } from '@/context/DataContext';
 import { supabase } from '@/utils/supabase';
 
+/**
+ * AddBudget.tsx
+ * 
+ * Renders a form for creating a new budget.
+ * Handles form state, validation, and submission to Supabase.
+ * Notifies parent on successful creation and refreshes budget data.
+ */
+
 interface BudgetFormData {
   name: string;
   max: string;

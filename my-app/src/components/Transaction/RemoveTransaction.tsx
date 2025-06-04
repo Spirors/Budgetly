@@ -3,6 +3,13 @@ import { supabase } from '@/utils/supabase';
 import { useDataContext } from '@/context/DataContext';
 import { toast } from 'react-hot-toast';
 
+/**
+ * RemoveTransaction.tsx
+ *
+ * Provides a modal for confirming the deletion of a transaction.
+ * Handles the deletion process and notifies the user of success or failure.
+ */
+
 interface RemoveTransactionProps {
   transactionId: string;
   onClose: () => void;

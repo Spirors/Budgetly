@@ -2,6 +2,13 @@
 
 import React from 'react';
 
+/**
+ * auth/layout.tsx
+ *
+ * Layout component for authentication pages (login, register).
+ * Provides a consistent background and title for auth-related pages.
+ */
+
 export default function AuthLayout({
   children,
 }: Readonly<{

@@ -1,5 +1,12 @@
 import { useDataContext } from '@/context/DataContext';
 
+/**
+ * RecentTransactions.tsx
+ * 
+ * Shows a list of the most recent transactions for the current user.
+ * Used on the dashboard overview page.
+ */
+
 export default function RecentTransactions() {
   const { transactions } = useDataContext();
 

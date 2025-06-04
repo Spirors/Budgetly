@@ -9,6 +9,13 @@ import SpendingTrendsChart from '@/components/Dashboard/SpendingTrendsChart';
 import BudgetBreakdownChart from '@/components/Dashboard/BudgetBreakdownChart';
 import RecentTransactions from '@/components/Dashboard/RecentTransactions';
 
+/**
+ * dashboard/page.tsx
+ * 
+ * Main dashboard page showing summary charts, statistics, and recent transactions.
+ * Entry point for authenticated users.
+ */
+
 export default function Dashboard() {
   const [selectedMonth, setSelectedMonth] = useState<number>(0);
   const [selectedYear, setSelectedYear] = useState<number>(0);

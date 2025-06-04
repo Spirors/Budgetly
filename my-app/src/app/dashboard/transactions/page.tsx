@@ -1,10 +1,18 @@
 "use client"
+
 import { useState, useEffect } from 'react';
 import { useUserContext } from '@/context/UserContext';
 import MonthNavbar from '@/components/Common/MonthNavbar';
 import AddTransaction from '@/components/Transaction/AddTransaction';
 import ViewTransactions from '@/components/Transaction/ViewTransactions';
 import RemoveTransaction from '@/components/Transaction/RemoveTransaction';
+
+/**
+ * dashboard/transactions/page.tsx
+ * 
+ * Transactions management page.
+ * Allows users to view, add, and remove transactions for selected months/years.
+ */
 
 export default function Transactions() {
   const { user } = useUserContext();

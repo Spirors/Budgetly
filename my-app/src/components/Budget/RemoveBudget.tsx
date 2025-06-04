@@ -3,6 +3,14 @@ import { supabase } from '@/utils/supabase';
 import { useDataContext } from '@/context/DataContext';
 import { toast } from 'react-hot-toast';
 
+/**
+ * RemoveBudget.tsx
+ *
+ * Provides a modal for confirming budget deletion.
+ * Handles the removal of a budget and updates related transactions.
+ * Notifies parent component on success.
+ */
+
 interface RemoveBudgetProps {
   budgetId: string;
   onClose: () => void;
