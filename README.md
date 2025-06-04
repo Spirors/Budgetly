@@ -1,38 +1,45 @@
 # Budgetly
 
-Budgetly is a MERN (MongoDB, Express, React, Node.js) project for tracking budgets. It allows users to sign up with an account that has features such as:  
-- Budget Page:  
-  - Creating new budgets  
-  - Showing budgets for specific months and years within 5 years from the current date  
-  - Deleting unwanted budget  
+Budgetly is a modern personal finance management app built with **Next.js**, **TypeScript**, and **Supabase (Postgres)**. It helps users track budgets and transactions, visualize spending, and manage their finances with ease.
 
-- Transaction Page:  
-  - Adding transactions  
-  - Showing transactions for specific months and years within 5 years from the current date  
-  - Deleting unwanted transaction  
+## Features
 
-Here is the signup page:  
-![Signup Page](./client/img/SignupPage.png)
+- **Authentication:** Secure sign up and login using Supabase Auth.
+- **Budgets:**  
+  - Create, edit, and delete budgets  
+  - View budgets by month and year  
+  - Set maximum amounts and track progress  
+- **Transactions:**  
+  - Add, view, and delete transactions  
+  - Assign transactions to budgets  
+  - Filter by month and year  
+- **Dashboard:**  
+  - Visualize spending and remaining budgets  
+  - See recent transactions and summary statistics  
+- **Responsive UI:** Clean, mobile-friendly interface built with Tailwind CSS.
+- **Deployed on Vercel** for fast, global access.
 
-Here is the login page:  
-![Login Page](./client/img/LoginPage.png)
+## Tech Stack
 
-Here is the budget page:  
-![Budget Page](./client/img/BudgetPage.png)
+- [Next.js](https://nextjs.org/) (App Router, TypeScript)
+- [Supabase](https://supabase.com/) (Postgres, Auth, JS Client)
+- [React](https://react.dev/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [Vercel](https://vercel.com/) (Deployment)
 
-Here is the transaction page:  
-![Transaction Page](./client/img/TransactionPage.png)
+## Screenshots
 
-## Setup
+Dashboard  
+![Dashboard Page](./my-app/public/dashboard.png)
 
-### Client Folder
-```sh
-cd client
-npm install
-```
+Budgets  
+![Budgets Page](./my-app/public/budgets.png)
 
-### Server Folder
-```sh
-cd server
-npm install
-```
+Transactions  
+![Transactions Page](./my-app/public/transactions.png)
+
+Login  
+![Login Page](./my-app/public/login.png)
+
+Signup  
+![Signup Page](./my-app/public/signup.png)
