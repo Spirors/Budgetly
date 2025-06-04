@@ -1,40 +1,36 @@
 "use client";
 
-import { useState, FormEvent } from 'react';
+import { useState } from 'react';
 import { toast } from 'react-hot-toast';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useUserContext } from '@/context/UserContext';
 import { supabase } from '@/utils/supabase';
+import { motion } from 'framer-motion';
 
 /**
  * Login.tsx
+ * 
  * Provides a form for user login.
  * Handles user input, validation, and submission to Supabase Auth.
  * Displays success or error messages based on the outcome.
  */
 
-interface LoginData {
-  email: string;
-  password: string;
-}
-
 export default function Login() {
   const router = useRouter();
-  const [data, setData] = useState<LoginData>({
+  const [data, setData] = useState({
     email: '',
     password: ''
   });
   const [isLoading, setIsLoading] = useState(false);
   const { setUser } = useUserContext();
 
-  const loginUser = async (e: FormEvent) => {
+  const loginUser = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
 
     const { email, password } = data;
 
-    // Supabase Auth sign in
     const { error, data: signInData } = await supabase.auth.signInWithPassword({
       email,
       password,
@@ -46,14 +42,12 @@ export default function Login() {
       return;
     }
 
-    // Optionally fetch user profile or set user context here
-    // Map Supabase user to your app's User type
     setUser({
       id: signInData.user.id,
       email: signInData.user.email ?? '',
-      username: signInData.user.user_metadata?.username ?? '', // Adjust as needed
-      // Add other properties if needed
+      username: signInData.user.user_metadata?.username ?? '',
     });
+    
     toast.success('Logged in successfully!');
     setIsLoading(false);
     router.push('/dashboard');
@@ -61,10 +55,22 @@ export default function Login() {
 
   return (
     <>
-      <h1 className="text-3xl font-bold mb-8 text-center">Login</h1>
-      <form onSubmit={loginUser} className="space-y-6">
-        <div>
-          <label htmlFor="email" className="block mb-2 text-base font-medium text-gray-700">
+      <motion.h1 
+        initial={{ y: -10, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ delay: 0.1 }}
+        className="text-3xl font-bold mb-8 text-center bg-gradient-to-r from-green-600 to-cyan-600 bg-clip-text text-transparent"
+      >
+        Welcome Back
+      </motion.h1>
+      
+      <form onSubmit={loginUser} className="space-y-5">
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+        >
+          <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-600">
             Email
           </label>
           <input
@@ -72,14 +78,18 @@ export default function Login() {
             type="email"
             value={data.email}
             onChange={(e) => setData({ ...data, email: e.target.value })}
-            className="w-full p-3 bg-gray-100 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all duration-200"
             required
             autoComplete="email"
           />
-        </div>
+        </motion.div>
 
-        <div>
-          <label htmlFor="password" className="block mb-2 text-base font-medium text-gray-700">
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+        >
+          <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-600">
             Password
           </label>
           <input
@@ -87,33 +97,53 @@ export default function Login() {
             type="password"
             value={data.password}
             onChange={(e) => setData({ ...data, password: e.target.value })}
-            className="w-full p-3 bg-gray-100 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all duration-200"
             required
             autoComplete="current-password"
             minLength={6}
           />
-        </div>
+        </motion.div>
 
-        <button
-          type="submit"
-          disabled={isLoading}
-          className={`w-full p-3 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-colors ${
-            isLoading ? 'opacity-70 cursor-not-allowed' : ''
-          }`}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4 }}
+          className="pt-2"
         >
-          {isLoading ? 'Logging in...' : 'Login'}
-        </button>
+          <button
+            type="submit"
+            disabled={isLoading}
+            className={`w-full py-3 px-4 rounded-xl bg-gradient-to-r from-green-500 to-cyan-500 text-white font-medium shadow-md hover:shadow-lg transition-all duration-200 ${
+              isLoading ? 'opacity-80 cursor-not-allowed' : ''
+            }`}
+          >
+            {isLoading ? (
+              <span className="flex items-center justify-center">
+                <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                Logging in...
+              </span>
+            ) : 'Login'}
+          </button>
+        </motion.div>
 
-        <p className="mt-4 text-sm text-center text-gray-600">
+        <motion.p 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.5 }}
+          className="mt-6 text-sm text-center text-gray-500"
+        >
           Don't have an account?{' '}
           <Link
             href="/auth/signup"
-            className="underline text-blue-600 hover:text-blue-800"
+            className="font-medium text-blue-600 hover:text-blue-800 transition-colors"
             aria-label="Navigate to signup page"
           >
             Sign up here
           </Link>
-        </p>
+        </motion.p>
       </form>
     </>
   );
