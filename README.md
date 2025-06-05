@@ -19,6 +19,10 @@ Budgetly is a modern personal finance management app built with **Next.js**, **T
 - **Responsive UI:** Clean, mobile-friendly interface built with Tailwind CSS.
 - **Deployed on Vercel** for fast, global access.
 
+## Live Demo
+
+[https://budgetly-gray.vercel.app](https://budgetly-gray.vercel.app)
+
 ## Tech Stack
 
 - [Next.js](https://nextjs.org/) (App Router, TypeScript)
