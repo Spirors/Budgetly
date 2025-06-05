@@ -45,14 +45,17 @@ export default function AccountToggle() {
         aria-label="User account"
         onClick={() => setIsOpen(!isOpen)}
       >
-        <div className="relative">
+        <div
+          className="w-8 h-8 rounded-full bg-gradient-to-br from-green-500 to-green-600 shadow overflow-hidden"
+          style={{ position: "relative" }}
+        >
           <Image
             src="https://api.dicebear.com/9.x/lorelei/svg?seed=Chase"
             alt="User avatar"
-            className="w-8 h-8 rounded-full bg-gradient-to-br from-green-500 to-green-600 shadow"
             width={32}
             height={32}
             priority
+            style={{ objectFit: "cover", width: "100%", height: "100%" }}
           />
           <span className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-white"></span>
         </div>
