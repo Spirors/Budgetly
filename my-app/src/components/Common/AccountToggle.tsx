@@ -1,6 +1,6 @@
 import { useUserContext } from '@/context/UserContext';
 import { useState, useRef, useEffect } from 'react';
-import { supabase } from '@/utils/supabase';
+import { supabase } from '@/utils/supabase_temp';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 

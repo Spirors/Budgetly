@@ -1,7 +1,7 @@
 "use client"
 
 import { createContext, useState, ReactNode, useContext, useEffect } from "react";
-import { supabase } from "@/utils/supabase";
+import { supabase } from "@/utils/supabase_temp";
 
 /**
  * UserContext.tsx
