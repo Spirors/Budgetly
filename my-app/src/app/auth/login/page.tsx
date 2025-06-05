@@ -5,7 +5,7 @@ import { toast } from 'react-hot-toast';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useUserContext } from '@/context/UserContext';
-import { supabase } from '@/utils/supabase_temp';
+import { supabase } from '@/utils/supabase';
 import { motion } from 'framer-motion';
 
 /**

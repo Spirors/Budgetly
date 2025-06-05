@@ -2,7 +2,7 @@
 
 import { createContext, useContext, ReactNode, useState, useEffect, useCallback } from "react";
 import { useUserContext } from "./UserContext";
-import { supabase } from "@/utils/supabase_temp";
+import { supabase } from "@/utils/supabase";
 
 /**
  * DataContext.tsx

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { supabase } from '@/utils/supabase_temp';
+import { supabase } from '@/utils/supabase';
 import { toast } from 'react-hot-toast';
 import { useDataContext } from '@/context/DataContext';
 

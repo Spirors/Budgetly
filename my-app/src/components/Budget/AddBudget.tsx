@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { useUserContext } from '@/context/UserContext';
 import { useDataContext } from '@/context/DataContext';
-import { supabase } from '@/utils/supabase_temp';
+import { supabase } from '@/utils/supabase';
 
 /**
  * AddBudget.tsx
