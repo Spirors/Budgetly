@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { FiHome, FiList, FiPieChart, FiX, FiMenu } from "react-icons/fi";
+import Image from "next/image";
 
 /**
  * Sidebar.tsx
@@ -15,7 +16,7 @@ export default function Sidebar() {
   const router = useRouter();
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  const NavItem = ({ icon: Icon, title, path }: { icon: any, title: string, path: string }) => (
+  const NavItem = ({ icon: Icon, title, path }: { icon: React.ComponentType<{ className?: string }>, title: string, path: string }) => (
     <button
       onClick={() => {
         router.push(path);
@@ -51,8 +52,14 @@ export default function Sidebar() {
         <div className="h-full flex flex-col p-4 overflow-y-auto">
           {/* Logo */}
           <div className="flex items-center gap-3 mb-8 p-2">
-          <img src="/logo-512x512.png" alt="Budgetly Logo" className="h-12 w-12 rounded-full" />
-
+            <Image
+              src="/logo-512x512.png"
+              alt="Budgetly Logo"
+              className="h-12 w-12 rounded-full"
+              width={48}
+              height={48}
+              priority
+            />
             <h1 className="text-xl font-bold text-gray-800">Budgetly</h1>
           </div>
 

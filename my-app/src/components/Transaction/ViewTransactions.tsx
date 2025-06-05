@@ -70,10 +70,12 @@ export default function ViewTransactions({ month, year, onRemoveTransaction }: V
     });
   }, [transactions, month, year, searchTerm]);
 
-  const sortedTransactions = useMemo(() => {
+    const sortedTransactions = useMemo(() => {
     return [...filteredTransactions].sort((a, b) => {
-      let valueA: any = sortConfig.key === 'date' ? new Date(a[sortConfig.key]) : a[sortConfig.key];
-      let valueB: any = sortConfig.key === 'date' ? new Date(b[sortConfig.key]) : b[sortConfig.key];
+      const valueA: string | number | Date =
+        sortConfig.key === 'date' ? new Date(a[sortConfig.key]) : a[sortConfig.key];
+      const valueB: string | number | Date =
+        sortConfig.key === 'date' ? new Date(b[sortConfig.key]) : b[sortConfig.key];
       if (valueA < valueB) return sortConfig.direction === 'ascending' ? -1 : 1;
       if (valueA > valueB) return sortConfig.direction === 'ascending' ? 1 : -1;
       return 0;

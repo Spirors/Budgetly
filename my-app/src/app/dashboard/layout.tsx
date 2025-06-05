@@ -2,6 +2,8 @@
 import React from 'react';
 import Header from '@/components/Common/Header';
 import Sidebar from '@/components/Common/Sidebar';
+import { useUserContext } from '@/context/UserContext';
+import Loading from '@/components/Common/Loading';
 
 /**
  * dashboard/layout.tsx
@@ -15,6 +17,12 @@ export default function DashboardLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const { loading } = useUserContext();
+
+  if (loading) {
+    return <Loading />;
+  }
+
   return (
     <div className="flex flex-col md:flex-row min-h-screen bg-gray-50">
       {/* Mobile Header */}

@@ -13,10 +13,9 @@ import { toast } from 'react-hot-toast';
 interface RemoveTransactionProps {
   transactionId: string;
   onClose: () => void;
-  disabled?: boolean;
 }
 
-export default function RemoveTransaction({ transactionId, onClose, disabled }: RemoveTransactionProps) {
+export default function RemoveTransaction({ transactionId, onClose }: RemoveTransactionProps) {
   const { fetchTransactions } = useDataContext();
   const [isLoading, setIsLoading] = useState(false);
 

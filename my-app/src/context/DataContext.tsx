@@ -75,12 +75,12 @@ export function DataContextProvider({ children }: DataContextProviderProps) {
 
       // Map supabase fields to Budget interface
       setBudgets(
-        (data || []).map((b: any) => ({
-          id: b.id,
-          userId: b.user_id,
-          name: b.name,
+        (data || []).map((b: Record<string, unknown>) => ({
+          id: b.id as string,
+          userId: b.user_id as string,
+          name: b.name as string,
           max: Number(b.max),
-          created_at: b.created_at,
+          created_at: b.created_at as string,
         }))
       );
     } catch (err) {
@@ -106,15 +106,15 @@ export function DataContextProvider({ children }: DataContextProviderProps) {
       if (error) throw error;
 
       setTransactions(
-        (data || []).map((t: any) => ({
-          id: t.id,
-          userId: t.user_id,
-          budgetId: t.budget_id,
-          budgetName: t.budget_name,
+        (data || []).map((t: Record<string, unknown>) => ({
+          id: t.id as string,
+          userId: t.user_id as string,
+          budgetId: t.budget_id as string | null,
+          budgetName: t.budget_name as string,
           amount: Number(t.amount),
-          date: t.date,
-          description: t.description,
-          created_at: t.created_at,
+          date: t.date as string,
+          description: t.description as string,
+          created_at: t.created_at as string,
         }))
       );
     } catch (err) {

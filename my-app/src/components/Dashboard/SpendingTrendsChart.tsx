@@ -41,7 +41,7 @@ export default function SpendingTrendsChart({ selectedYear, selectedMonth, range
     }
   } else if (range === 'year') {
     // This year, all months
-    labels = months.map((m, idx) => `${m} '${String(selectedYear).slice(-2)}`);
+    labels = months.map((m) => `${m} '${String(selectedYear).slice(-2)}`);
     spending = months.map((_, idx) =>
       transactions
         .filter(tx => {
@@ -53,7 +53,7 @@ export default function SpendingTrendsChart({ selectedYear, selectedMonth, range
   } else if (range === 'lastyear') {
     // Last year, all months
     const lastYear = selectedYear - 1;
-    labels = months.map((m, idx) => `${m} '${String(lastYear).slice(-2)}`);
+    labels = months.map((m) => `${m} '${String(lastYear).slice(-2)}`);
     spending = months.map((_, idx) =>
       transactions
         .filter(tx => {

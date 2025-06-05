@@ -62,7 +62,7 @@ export default function AddBudget({ onClose }: AddBudgetProps) {
       setData({ name: '', max: '' });
       fetchBudgets();
       onClose?.();
-    } catch (error) {
+    } catch {
       toast.error('Failed to create budget');
     }
   };

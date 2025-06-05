@@ -135,7 +135,7 @@ export default function Login() {
           transition={{ delay: 0.5 }}
           className="mt-6 text-sm text-center text-gray-500"
         >
-          Don't have an account?{' '}
+          Don&apos;t have an account?{' '}
           <Link
             href="/auth/signup"
             className="font-medium text-blue-600 hover:text-blue-800 transition-colors"

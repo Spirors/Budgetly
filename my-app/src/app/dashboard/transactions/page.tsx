@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { useUserContext } from '@/context/UserContext';
 import MonthNavbar from '@/components/Common/MonthNavbar';
 import AddTransaction from '@/components/Transaction/AddTransaction';
@@ -15,6 +16,7 @@ import RemoveTransaction from '@/components/Transaction/RemoveTransaction';
  */
 
 export default function Transactions() {
+  const router = useRouter();
   const { user } = useUserContext();
   const [selectedMonth, setSelectedMonth] = useState<number | null>(null);
   const [selectedYear, setSelectedYear] = useState<number | null>(null);
@@ -22,10 +24,20 @@ export default function Transactions() {
   const [removingTransaction, setRemovingTransaction] = useState<null | string>(null);
 
   useEffect(() => {
+    if (!user) {
+      router.push('/auth/login');
+    }
+  }, [user, router]);
+
+  useEffect(() => {
     const now = new Date();
     setSelectedMonth(now.getMonth());
     setSelectedYear(now.getFullYear());
   }, []);
+
+  if (!user) {
+    return null;
+  }
 
   if (selectedMonth === null || selectedYear === null) {
     return (

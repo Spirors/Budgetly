@@ -14,10 +14,9 @@ import { toast } from 'react-hot-toast';
 interface RemoveBudgetProps {
   budgetId: string;
   onClose: () => void;
-  disabled?: boolean;
 }
 
-export default function RemoveBudget({ budgetId, disabled, onClose }: RemoveBudgetProps) {
+export default function RemoveBudget({ budgetId, onClose }: RemoveBudgetProps) {
   const { fetchBudgets, fetchTransactions } = useDataContext();
   const [isLoading, setIsLoading] = useState(false);
 

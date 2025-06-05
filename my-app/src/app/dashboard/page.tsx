@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { useUserContext } from '@/context/UserContext';
 import AccountToggle from '@/components/Common/AccountToggle';
 import MonthNavbar from '@/components/Common/MonthNavbar';
 import StatCards from '@/components/Dashboard/StatCards';
@@ -17,16 +18,27 @@ import RecentTransactions from '@/components/Dashboard/RecentTransactions';
  */
 
 export default function Dashboard() {
+  const router = useRouter();
+  const { user } = useUserContext(); // <-- Make sure your context provides `loading`
   const [selectedMonth, setSelectedMonth] = useState<number>(0);
   const [selectedYear, setSelectedYear] = useState<number>(0);
   const [trendRange, setTrendRange] = useState<'6months' | 'year' | 'lastyear'>('6months');
-  const router = useRouter();
+
+  useEffect(() => {
+    if (!user) {
+      router.push('/auth/login');
+    }
+  }, [user, router]);
 
   useEffect(() => {
     const now = new Date();
     setSelectedMonth(now.getMonth());
     setSelectedYear(now.getFullYear());
   }, []);
+
+  if (!user) {
+    return null;
+  }
 
   return (
     <div className="space-y-6">
@@ -56,7 +68,7 @@ export default function Dashboard() {
             <select
               className="text-sm border border-gray-300 rounded-md px-3 py-1 focus:outline-none focus:ring-2 focus:ring-green-500"
               value={trendRange}
-              onChange={e => setTrendRange(e.target.value as any)}
+              onChange={e => setTrendRange(e.target.value as '6months' | 'year' | 'lastyear')}
             >
               <option value="6months">Last 6 Months</option>
               <option value="year">This Year</option>

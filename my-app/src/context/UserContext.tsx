@@ -1,7 +1,7 @@
 "use client"
 
 import { createContext, useState, ReactNode, useContext, useEffect } from "react";
-import { supabase } from "@/utils/supabase"; // Adjust path as needed
+import { supabase } from "@/utils/supabase";
 
 /**
  * UserContext.tsx
@@ -21,6 +21,7 @@ interface UserContextType {
   user: User | null;
   setUser: (user: User | null) => void;
   isAuthenticated: boolean;
+  loading: boolean;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -31,6 +32,7 @@ interface UserContextProviderProps {
 
 export function UserContextProvider({ children }: UserContextProviderProps) {
   const [user, _setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
 
   // Wrapped setter for potential future logic
   const setUser = (user: User | null) => {
@@ -40,6 +42,7 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
   // Keep user logged in by checking session on mount
   useEffect(() => {
     const getSession = async () => {
+      setLoading(true);
       const { data } = await supabase.auth.getUser();
       if (data.user) {
         _setUser({
@@ -47,7 +50,10 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
           email: data.user.email ?? "",
           username: data.user.user_metadata?.username ?? "",
         });
+      } else {
+        _setUser(null);
       }
+      setLoading(false);
     };
     getSession();
 
@@ -73,6 +79,7 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
     user,
     setUser,
     isAuthenticated: !!user,
+    loading,
   };
 
   return (
