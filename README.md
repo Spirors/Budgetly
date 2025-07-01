@@ -21,7 +21,7 @@ Budgetly is a modern personal finance management app built with **Next.js**, **T
 
 ## Live Demo
 
-[https://budgetly-gray.vercel.app](https://budgetly-gray.vercel.app)
+[https://budgetly-gray.vercel.app](https://budgetly-gray.vercel.app)  
 Demo Account: 'thealtern99@gmail.com', 'test1234'
 (If you can't login let me know, Supabase is probably paused.)
 
